@@ -1,0 +1,27 @@
+{
+	"module" : "Test Controller Module",
+	"input_params" : ["input_1", "input_2", "input_3"],
+	"vars"   : {
+		"root"          : "/path/to/root",
+		"module_root"   : "$root/module",
+		"geo_index"     : "$module_root/geo_index",
+		"archive"       : "$module_root/archive",
+		"nested"        : "$geo_index/test",
+		"module_schema" : "module-test",
+		"module_graph"  : "http://wedpipe-test/module"
+	},
+	"actions" : [
+		{ "action" : "action-1",          "description" : "Action 1 Description", "command" : "echo ACTION $input_1; echo 'WFOUT <AK1> : <V11>'" },
+		{ "action" : "action-2",          "description" : "Action 2 Description", "command" : "echo ACTION $input_2; echo 'WFOUT <AK1> : <V12>'; echo 'WFOUT <AK1> : <V11>'" },
+		{ "action" : "action-sub-module", "description" : "Call sub module"     , "command" : { "module" : "test-called", "params" : {"input_a" : "INA"} } },
+		{ "action" : "action-3",          "description" : "Action 3 Description", "command" : "echo ACTION $input_3; echo 'WFOUT <AK2> : <V2>'", "next" : "action-4" },
+		null,
+		{ "action" : "action-4",          "description" : "Action 4 Description", "command" : "echo ACTION 4"}
+	],
+	"triggers" : [
+		{ "trigger" : "ingest-catalog-trigger", "description" : "ingest data detected into catalog dir.", "dir" : "./test-trigger-dir", "action" : "ingest-catalog" }
+	],
+	"begin"	: "print 'BEGIN with params', _input_1, _input_2, _input_3; return { 'k0' : ['v0'], 'kIN' : [_input_1] }",
+	"end"	: "print 'END'  ; return {'k1' : ['v1']}",
+	"error"	: "print 'ERROR'"
+}

@@ -1,0 +1,190 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Scheduler Console' %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<style type="text/css">
+	.widget { 
+		margin:10px;
+		padding:10px;
+		border: 1px solid gray;
+	}
+	.spinner {
+		display:none;
+	}
+	
+	hr {
+		background-color: black;
+	}
+</style>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript">
+$(function() {
+
+	const ACQUISITION_LIVE_PARAM = 'acquisitionlive';
+	const ACQUISITION_JOB_PARAM  = 'acquisitionjob';
+
+	function validateInt(val) {
+		if(!isNaN(val)) return true;
+		success = true;
+		if(val != "") {
+			var value = val.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+			var intRegex = /^\d+$/;
+			if(!intRegex.test(value)) {
+				errors += "Field must be numeric.";
+				success = false;
+				alert(errors);
+			}
+		} else {
+			errors += "Field is blank.";
+			success = false;
+			alert(errors);
+		}
+		return success;
+	}
+
+	function updateStatus() {
+		$.get('/scheduler/status/')
+		.success(function (data) {
+			$('#scheduler-status').html(data);
+		})
+		.error(function(e) {
+					$('#scheduler-status').html(e);
+		});
+	}
+
+	function getParameterByName(name) {
+		name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+		var regexS = "[\\?&]" + name + "=([^&#]*)";
+		var regex = new RegExp(regexS);
+		var results = regex.exec(window.location.search);
+		if(results == null)
+			return null;
+		else
+			return decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+
+	function runAcquisitionLive(source, time_back) {
+		if( ! validateInt(time_back) ) return;
+		location_url = "http://" +  document.location.host + "/scheduler/run/?source=" + source + "&time_back=" + time_back;
+		$('#console').show();
+		$('#console-log').html('<iframe width="100%" height="900" style="border:none" src="' + location_url + '"><iframe>');
+		updateStatus();
+	}
+
+	function runAcquisitionJob(source, time_back) {
+		if( ! validateInt(time_back) ) return;
+		$.ajax({
+			url: '/scheduler/job/',
+			data: { source : source, time_back : time_back },
+			success: function(data) {
+				$message = $('#message');
+				$message.html("Job ID: " + data);
+			},
+			error : function(e) {
+				$('#message').html('Error: ' + e.message);
+			},
+			complete : function() {
+				updateStatus();
+			},
+			dataType: 'text'
+		});
+		$('#message').html('Started...');
+	}
+
+	function executeLiveConsole() {
+		var source = getParameterByName(ACQUISITION_LIVE_PARAM);
+		if(source == null) return;
+		runAcquisitionLive(source, 0);
+	}
+
+	function executeJobConsole() {
+		var source = getParameterByName(ACQUISITION_JOB_PARAM);
+		if(source == null) return;
+		runAcquisitionJob(source, 0);
+	}
+
+	$('#scheduler-run-button').click(function() {
+		source	  = $('#id_source').val();
+		time_back = $('#id_time_back').val();
+		runAcquisitionJob(source, time_back);
+	});
+
+	$('#scheduler-run-button-live').click(function() {
+		source	  = $('#id_source').val();
+		time_back = $('#id_time_back').val();
+		runAcquisitionLive(source, time_back);
+	});
+
+	$('#console-log-close').click(function(e){
+		e.preventDefault();
+		$('#console').hide();
+		$('#console-log').html('');
+	});
+
+	$(document).ajaxStart(function() {
+		$('#spinner').show();
+	}).ajaxStop(function() {
+		$('#spinner').hide();
+	});
+
+	$('#update-scheduling-status-button').click(
+		function(e) {
+			e.preventDefault();
+			updateStatus();
+		}
+	);
+
+	function progressHandlingFunction(e) {
+		if (e.lengthComputable) {
+			$('progress').attr({value:e.loaded, max:e.total});
+		}
+	}
+
+	executeLiveConsole();
+	executeJobConsole();
+	updateStatus();
+});
+</script>
+
+<div class="widget">
+	<h3>Run Scheduler</h3>
+	{% csrf_token %}
+	{{ run_scheduler_form.as_p }}
+	<input id="scheduler-run-button"	  type="button" value="Run Acquisition Job"/>
+	<input id="scheduler-run-button-live" type="button" value="Run Acquisition Live"/>
+	<div style="margin: 10px;">Scheduling Status: <span id="scheduler-status"></span> <a id="update-scheduling-status-button" style="font-size: 10px;" href="#">Update</a> </div>
+</div>
+
+<div class="widget">
+	<h3>Upload Datasets via CSV</h3>
+	{% if csv_import_err %}
+		<br>{{ csv_import_err }}</br>
+	{% elif csv_import_status %}
+		<span style="color: green;"><strong>Import Successful</strong></span>
+	{% endif %}
+
+	<form id="upload-dataset-csv-form" enctype="multipart/form-data" action="/import/datasets/" method="POST">
+		{% csrf_token %}
+		{{ csv_upload_form.as_p }}
+		<input type="submit" value="Upload">
+	</form>
+</div>
+
+<img class="spinner" id="spinner" src="/static/ajax-loader.gif"/>
+<div id="message"></div>
+
+<div class="widget" id="console" style="display:none">
+	<div>
+		<a id="console-log-close" href="#" target="_blank" style="float: right;">Close</a>
+		<h3>Acquisition Live Output</h3>
+	</div>
+	<div id="console-log"></div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "admin/change_form.html" %}
+
+{% load conf_reader %}
+
+{% block extrahead %}
+{{block.super}}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/sha1.js"></script>
+
+<script type="text/javascript">
+	$(function() {
+		String.prototype.trim=function(){return this.replace(/^\s\s*/, '').replace(/\s\s*$/, '');};
+
+		var RDF_BROWSER_SERVER = '{% value_from_settings "RAW_RDF_BROWSER_SERVER" %}';
+		var MAP_BROWSER_SERVER = '{% value_from_settings "MAP_RDF_BROWSER_SERVER" %}';
+
+		var sourceName  = $('#id_source option:selected').attr('value');
+		sourceName = sourceName.toLowerCase().replace(/ /g, "_");
+		var datasetUrl = $('#id_url').attr('value');
+		var cryptedDatasetUrl = CryptoJS.SHA1(datasetUrl).toString(CryptoJS.enc.Hex).substring(0, 20);
+
+		$('#id_source').after('<div style="float:right; padding: 4px;"><small><a id="show_source_button" href="#">Show Source RDF</a></small></div>');
+		$('#id_url')   .after('<div style="float:right; padding: 4px;"><small><a id="show_dataset_raw_button" href="#">Show Dataset Raw</a></small></div>');
+		$('#id_url')   .after('<div style="float:right; padding: 4px;"><small><a id="show_dataset_mapped_button" href="#">Show Dataset Mapped</a></small></div>');
+
+		$('#show_source_button').click( function() {
+			window.open(RDF_BROWSER_SERVER + sourceName);
+			return false;
+		});
+		$('#show_dataset_raw_button').click( function() {
+			window.open(RDF_BROWSER_SERVER + sourceName + '/' + cryptedDatasetUrl);
+			return false;
+		});
+		$('#show_dataset_mapped_button').click( function() {
+			window.open(MAP_BROWSER_SERVER + datasetUrl);
+			return false;
+		});
+	});
+</script>
+{%endblock%}

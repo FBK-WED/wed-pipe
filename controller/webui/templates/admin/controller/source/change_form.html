@@ -1,0 +1,55 @@
+{% extends "admin/change_form.html" %}
+
+{% block extrahead %}
+{{block.super}}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<!--https://github.com/blueimp/JavaScript-Templates-->
+<script type="text/javascript" src="https://raw.github.com/blueimp/JavaScript-Templates/master/tmpl.min.js"></script>
+
+<script type="text/javascript">
+function showConfigDescription(configName) {
+	$.getJSON(
+		'/wf/configurations/' + configName,
+		function(data) {
+			data._configuration_name = configName;
+			data._textarea_id        = 'id_dispatcher';
+			$.get(
+				'/static/config-description.tmpl',
+				function(template) {
+					$('#conf-details').html( tmpl(template, data) )
+				}
+			);
+		}
+	);
+}
+
+$(function() {
+	$('#id_user').val('{{user}}');
+
+	$.get(
+		'/wf/configurations/html',
+		function(confList) {
+			$('#id_dispatcher').after('<div style="float:right"><div>' + confList + '</div><div id="conf-details"></div></div>');
+			showConfigDescription( $('#id_configurations').val() );
+			$('#id_configurations').change(function(){
+				showConfigDescription( $('#id_configurations').val() );
+			});
+		}
+	);
+
+	$('#id_scraper_name').after('<div style="float:right"><small><a id="create-scraper" href="#">Create Scraper</a></small></div>');
+	$('#create-scraper').click( function() {
+		$.get(
+			'/sw/config/',
+			function(data) { 
+				var popUp = window.open(data + "", null, null);
+				if (popUp == null || typeof(popUp)=='undefined') {
+					document.location.href = data;
+				}
+			}
+		);
+		return false; 
+	});
+});
+</script>
+{%endblock%}

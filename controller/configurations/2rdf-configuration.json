@@ -1,0 +1,18 @@
+{
+	"module" : "PostGres 2 RDF Conversion Module",
+	"input_params" : ["source"],
+	"vars"   : {
+		"script" : "$ROOT/../data_conversion/pgsql2rdf.py"
+	},
+	"actions" : [
+		{
+			"action"      : "perform-conversion",
+			"description" : "Converts all datasets belonging to a source to RDF and ingest them into the TripleStore.",
+			"command"     : "cd $(mktemp -d) && $script '$source'"
+		}
+	],
+	"triggers" : [],
+	"begin"	: "print 'Begin RDF Conversion'",
+	"end"	: "print 'End RDF Conversion'",
+	"error"	: "print 'Error while performing RDF conversion'"
+}

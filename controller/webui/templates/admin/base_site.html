@@ -1,0 +1,29 @@
+{# http://stackoverflow.com/questions/340888/navigation-in-django #}
+
+{% extends "admin/base.html" %}
+{% load i18n %}
+{% load admin_static %}
+{% load url from future %}
+
+{% block title %}{{ title }} | {% trans 'SpazioDati Controller Admin' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'SpazioDati Controller Admin' %}</h1>
+{% endblock %}
+
+{% block nav-global %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}"              style="color:#5B80B2">{% trans 'Home' %}</a>
+<a href="{% url 'controller.views.console' %}" style="color:#5B80B2">{% trans 'Console' %}</a>
+</div>
+{% endblock %}
+
+{% block breadcrumbs %}{# Empty #}{% endblock %}
+
+{% block messages %}
+    {% if messages %}
+    <ul class="messagelist">{% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|safe }}</li>
+    {% endfor %}</ul>
+    {% endif %}
+{% endblock messages %}

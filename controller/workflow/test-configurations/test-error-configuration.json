@@ -1,0 +1,14 @@
+{
+	"module" : "Test Controller Module With Error",
+	"input_params" : ["input_1"],
+	"vars"   : {
+		"root"          : "/path/to/root"
+	},
+	"actions" : [
+		{ "action" : "action-1",          "description" : "Action 1 Description", "command" : "echo ACTION $input_1; echo 'WFOUT <AK1> : <V11>'" },
+		{ "action" : "action-error",      "description" : "Action with error"   , "command" : "echo PRE; exit 1;" }
+	],
+	"begin"	: "print 'BEGIN with params', _input_1",
+	"end"	: "print 'END'",
+	"error"	: "print 'ERROR'"
+}

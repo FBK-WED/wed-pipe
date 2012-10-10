@@ -1,0 +1,24 @@
+# python deps:
+#  workon controller (access the virtualenv)
+# pip install -U -r requirements.txt
+
+distribute==0.6.28
+Django==1.4
+psycopg2==2.4.5
+South==0.7.5
+django-celery==3.0.9
+celery==3.0.9
+gunicorn==0.14.6
+csvkit==0.5.0
+rdflib==3.2.1
+
+# Test specific
+mock==1.0b1
+nose==1.2.1
+coverage==3.5.3
+django-jenkins==0.13.0
+pep8==1.3.3
+
+# patched or unavailable tools
+-e git://github.com/SpazioDati/refine-client-py.git@86cee648f20688e3a3424db81dfd3d41d0292ad4#egg=refine_client-dev
+-e git://github.com/mammadori/magic-python.git@045925a7922b875cde1619a383b19cb88f5f747f#egg=Magic_file_extensions-dev

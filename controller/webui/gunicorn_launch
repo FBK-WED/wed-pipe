@@ -1,0 +1,20 @@
+#!/bin/sh
+# run gunicorn_django from virtualenv
+
+VIRTUAL_ENV=$1
+if [ -z $VIRTUAL_ENV ]; then
+  echo "usage: $0 </path/to/virtualenv> <gunicorn options>"
+  exit 1
+fi
+
+if [ -s gunicorn.conf ]; then
+    GUNICORN_CONF_OPT="-c gunicorn.conf"
+fi
+
+. "${VIRTUAL_ENV}/bin/activate"
+
+shift 1
+exec gunicorn_django "$@" ${GUNICORN_CONF_OPT}
+
+deactivate
+

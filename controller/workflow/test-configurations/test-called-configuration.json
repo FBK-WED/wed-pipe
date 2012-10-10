@@ -1,0 +1,13 @@
+{
+	"module" : "Test Inner Controller Module",
+	"input_params" : ["input_a"],
+	"vars"   : {
+		"root" : "/path/to/root"
+	},
+	"actions" : [
+		{ "action" : "action-1", "description" : "Action 1 Description", "command" : "echo SUB ACTION $input_a" }
+	],
+	"begin" : "print 'BEGIN SUB MODULE'",
+	"end"   : "print 'END SUB MODULE'",
+	"error" : "print 'ERROR WHILE RUNNING SUB MODULE'"
+}

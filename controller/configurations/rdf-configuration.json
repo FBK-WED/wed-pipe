@@ -1,0 +1,18 @@
+{
+	"module" : "RDF Ingestion Module",
+	"input_params" : ["data", "graph"],
+	"vars"   : {
+		"script" : "$ROOT/../data_acquisition/rdf/ingest-data.sh"
+	},
+	"actions" : [
+		{ 
+			"action"      : "perform-ingestion",
+			"description" : "Download, convert compression and ingest a single RDF file into Virtuoso.",
+			"command"     : "$script -d '$data' -g '$graph' "
+		}
+	],
+	"triggers" : [],
+	"begin"	: "print 'Begin RDF Ingestion'",
+	"end"	: "print 'End RDF Ingestion'",
+	"error"	: "print 'Error while performing RDF ingestion'"
+}

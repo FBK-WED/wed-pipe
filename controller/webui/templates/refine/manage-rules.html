@@ -1,0 +1,224 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Refine Dataset Editor' %}</h1>
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		file_to_project_map = {};
+		current_prj_id = null;
+
+		function error(msg) {
+			$('#error-msg').html(msg);
+			$('#error-dialog').dialog({
+				modal : true,
+				width : 700,
+				height: 550
+			});
+		}
+
+		function getTRForFile(file) {
+			$tr = null;
+			$('#dataset_content tr').each(function(i,v) {
+				if($(v).attr('id') == 'row_' + file) $tr = $(v);
+			});
+			return $tr;
+		}
+
+		function saveRules(file, prj_id, f) {
+			download_url = $('#dataset_download_url').attr('href');
+			$tr = getTRForFile(file);
+			md5sum = $tr.find('.md5sum').html();
+			syncButton = $tr.find('.sync_button')
+			data = {}
+			data.dataset_url = download_url;
+			data.file        = file;
+			data.hash        = md5sum;
+			data.rules       = $('#refine_rule_ta').attr('value');
+			$.post('/refine/put/', data)
+					.error( function(e) {
+						error('Error while saving rule: ' + e.responseText)
+					})
+					.success( function(){ syncButton.hide(); f() });
+		}
+
+		function updateRules(isUpdate, event, rules) {
+			file   = $(event.target).parent().attr('id').replace('_add_button', '').replace('_edit_button', '');
+			prj_id = file_to_project_map[file] == null ? null : file_to_project_map[file].prj_id;
+			$('#refine_rule_ta').attr('value'  , rules);
+			$('#delete_prj_chk').attr('checked', true);
+			if(prj_id == null) $('#import_link').hide(); else $('#import_link').show();
+			current_prj_id = prj_id;
+			$('#file_label').html(file);
+			$('#prj_label') .html(prj_id);
+			$('#popup-dialog').dialog({
+				modal : true,
+				width : 700,
+				height: 550,
+				buttons: [
+					{
+						text: "Save",
+						click: function() {
+							popup_ref = this;
+							saveRules(file, prj_id, function() {
+								$(popup_ref).dialog("close");
+								if(!isUpdate) {
+									$tr = getTRForFile(file);
+									$tr.find('.add_button').hide();
+									$tr.find('.edit_button').show();
+								}
+								if( current_prj_id && $('#delete_prj_chk').attr('checked') ) {
+									$.get('/refine/delete/' + current_prj_id)
+											.error( function(e) { error('Error while deleting Refine Project: ' + e.responseText) })
+											.success(function() {file_to_project_map[file] = null;})
+								}
+							});
+						}
+					},
+					{
+						text: "Cancel",
+						click: function() { $(this).dialog("close"); }
+					}
+				]
+			});
+		}
+
+		$('html').ajaxSend(function(event, xhr, settings) {
+			function getCookie(name) {
+				var cookieValue = null;
+				if (document.cookie && document.cookie != '') {
+					var cookies = document.cookie.split(';');
+					for (var i = 0; i < cookies.length; i++) {
+						var cookie = $.trim(cookies[i]);
+						// Does this cookie string begin with the name we want?
+						if (cookie.substring(0, name.length + 1) == (name + '=')) {
+							cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+							break;
+						}
+					}
+				}
+				return cookieValue;
+			}
+			if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+				// Only send the token to relative URLs i.e. locally.
+				xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+			}
+		});
+
+		$('.open_button').click(function(event) {
+			download_url = $('#dataset_download_url').attr('href');
+			$parentNode = $(event.target).parent();
+			file_out = $parentNode.attr('href');
+			file     = $parentNode.attr('id').replace('_open_button', '');
+			$tableRowParent = $parentNode.parent().parent();
+			$rowOpenSpinner = $tableRowParent.find('.open-spinner');
+			if( file_to_project_map[file] != null ) {
+				prj_url =  file_to_project_map[file].prj_url;
+				window.open(prj_url, '', '');
+			} else {
+				params = {};
+				params.file_data = file_out;
+				params.file      = file;
+				params.dataset   = download_url;
+				$rowOpenSpinner.show();
+				$.post('/refine/open/', params, function(data) {
+					prj_meta = $.parseJSON(data);
+					file_to_project_map[file] = prj_meta;
+					window.open(prj_meta.prj_url, '', '');
+				})
+				.complete( function(){$rowOpenSpinner.hide();} )
+				.error( function(e) {error('Error while opening project: ' + e.responseText)} );
+			}
+			return false;
+		});
+
+		$('.add_button').click(function(event) {
+			updateRules(false, event, '');
+			return false;
+		});
+		$('.edit_button').click(function(event) {
+			download_url = $('#dataset_download_url').attr('href');
+			file         = $(event.target).parents('tr').find('.archive_file').html();
+			$.post('/refine/get/', { download_url : download_url, file : file }, function(data){
+				updateRules(true, event, data);
+			}).error(function(e){ error('Error while retrieving stored rules: ' + e.responseText) });
+			return false;
+		});
+
+		$('.sync_button').click(function(event){
+			// TODO: complete sync function.
+		});
+
+		$('#import_link_button').click(function(){
+			$.get('/refine/configuration/' + current_prj_id,
+					function(data) { $('#refine_rule_ta').attr('value', data) }
+			).error(function(e){ error('Error while loading Refine configuration: ' + e.responseText) });
+		});
+	});
+</script>
+
+<a href="{{archive_data.refine_url}}" target="_blank">Open Refine</a>
+
+<h3>Dataset</h3>
+<a id="dataset_download_url" href="{{archive_data.download_url}}" target="_blank">Download URL</a>
+
+<h3>Archive metadata</h3>
+<i>MD5SUM</i>: <strong id="md5sum">{{archive_data.meta.md5sum}}</strong><br/>
+<strong>Archive Name</strong>: <code>{{archive_data.meta.file_name}}</code><br/>
+<strong>Magic Type</strong>: <code>{{archive_data.meta.magic_type}}</code><br/>
+<strong>Content Type</strong>: <code>{{archive_data.meta.content_type}}</code><br/>
+<strong>Size</strong>: <code>{{archive_data.meta.file_size|filesizeformat}}</code>
+
+<h3>Archive Content</h3>
+<table id="dataset_content" style="width: 60%;">
+<body>
+{% for archive_file, data in archive_data.content.items %}
+<tr id="row_{{archive_file}}">
+	<td class="archive_file">{{archive_file}}</td>
+	<td class="md5sum">{{data.meta.md5sum}}</td>
+	<td class="file_size">{{data.meta.file_size|filesizeformat}}</td>
+	<td class="content_type">{{data.meta.content_type}}</td>
+	<td>
+	<a class="open_button" id="{{archive_file}}_open_button" href="{{data.file}}"> <strong>Open in Refine</strong></a>
+	</td>
+	<td>
+	<a class="edit_button" style="color: green; display: {% if archive_file in archive_data.files_with_rule %}visible{% else %}none{% endif %};" id="{{archive_file}}_edit_button" href="#"> <strong>Edit Rule</strong></a>
+	<a class="add_button"  style="display: {% if archive_file in archive_data.files_with_rule %}none{% else %}visible{% endif %};" id="{{archive_file}}_add_button" href="#"> <strong>Add Rule</strong></a>
+	{% if  archive_file in archive_data.desync_files_with_rules %}
+	<a class="sync_button"  style="color: orange;" id="{{archive_file}}_sync_button" href="#"> <strong>Sync Rule</strong></a>
+	{% endif %}
+	<span class="open-spinner" style="display: none;"><img src="/static/ajax-loader.gif" alt="Wait spinner..."></span>
+	</td>
+</tr>
+{% endfor %}
+</body>
+</table>
+
+<div style="visibility: hidden;">
+<div id="popup-dialog" title="Edit Refine Rule" style="height: 100%; width: 100%">
+	<p style="height:30px">
+		<span style="float:left; margin:0 7px 50px 0;"></span>
+		<span id="import_link"><a id="import_link_button" href="#">Import from project</a>
+			<strong id="file_label">PRJ</strong> (id: <small id="prj_label">PRJ-ID</small>)
+			<br/>
+			<label for="delete_prj_chk">Delete Refine Project after save</label> <input id="delete_prj_chk" type="checkbox" value="selected"/>
+		</span>
+	</p>
+	<textarea id="refine_rule_ta" style="height:90%; width:90%; padding:5px; font-size:1.2em;"></textarea>
+</div>
+</div>
+
+<div style="visibility: hidden;">
+	<div id="error-dialog" title="ERROR" style="height: 100%; width: 100%">
+		<p id="error-msg"></p>
+	</div>
+</div>
+
+{% endblock %}
