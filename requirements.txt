@@ -1,0 +1,71 @@
+Django==1.5
+
+psycopg2==2.4.6
+
+South==0.7.5
+
+django-celery==3.0.17
+celery==3.0.17
+threadpool==1.2.7
+kombu==2.5.8
+billiard==2.7.3.23
+amqp==1.0.10
+anyjson==0.3.3
+python-dateutil==1.5
+
+django-extensions==1.0.2
+pygments==1.5  # needed by django-extensions
+
+# csvkit requires a lot of dependencies: sqlalchemy, xlrd, ...
+-e git://github.com/SpazioDati/csvkit.git@96c2ab1fb6fc22eb34a6d8457e3101e9702a5498#egg=csvkit-dev
+# this is to fix the version of a csvkit dependency, new version is broken with xlsx
+openpyxl==1.5.8
+dbf==0.94.003
+
+rdflib==3.4.0
+
+simplejson==2.6.2
+
+# patched or unavailable tools
+-e git://github.com/SpazioDati/refine-client-py.git@836759040bda25e218591a447ebe5c420c79ba26#egg=refine_client-dev
+-e git://github.com/mammadori/magic-python.git@045925a7922b875cde1619a383b19cb88f5f747f#egg=Magic_file_extensions-dev
+-e hg+https://schinckel@bitbucket.org/schinckel/django-jsonfield@72bab073d97f#egg=django-jsonfield-dev
+-e git://github.com/SpazioDati/django-crispy-forms.git@bec07b56df7596aa3098a216006e0bb3e640cfae#egg=django-crispy-forms-dev
+
+sparql-client==0.16
+-e git+https://spaziodati.codebasehq.com/controller/virtuoso.git@5b0cd0dae679733e85e77c03ad2893c1d8103242#egg=virtuoso-dev
+
+pytz==2012j
+
+paramiko==1.10.1
+
+-e git://github.com/coffin/coffin.git#egg=coffin-dev
+Jinja2==2.6
+
+#django-ace==0.3.1
+-e git://github.com/openxe/django-ace.git@3b4f62b8c55a4aae8eeaed46e4dcfb1405049b65#egg=django-ace
+#-e git://github.com/bsn/django-ace-editor.git@5474d31d8032a778bf1575bffd242440ea265010#egg=django-ace
+
+django-taggit==0.9.3
+django-appconf==0.5
+
+redis==2.7.2
+hiredis==0.1.1
+
+-e git://github.com/SpazioDati/envoy.git@1fd13a8e91df8af1c33229934eaa82a49e0794e7#egg=envoy-dev
+
+requests==1.1.0
+
+raven==3.1.11
+
+-e git://github.com/espeed/bulbs.git#egg=bulbs-dev
+
+# SHP import
+Shapely==1.2.17
+Fiona==0.10
+pyproj==1.9.3
+
+geojson==1.0.1
+
+# needed even in production due to imports
+factory_boy==1.2.0

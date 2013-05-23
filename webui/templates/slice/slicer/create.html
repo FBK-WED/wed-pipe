@@ -1,0 +1,16 @@
+{% extends 'layout/site_base.html' %}
+
+{% block menu_slicerlist %}active{% endblock %}
+
+{% block subtitle %}New slicer{% endblock %}
+
+{% block page_title %}New slicer{% endblock %}
+
+{% block breadcrumb %}
+    <li class="active">New slicer</li>
+{% endblock %}
+
+{% block content %}
+    {{ form.media|safe }}
+    {{ crispy(form) }}
+{% endblock %}

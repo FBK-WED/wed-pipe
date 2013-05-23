@@ -1,0 +1,54 @@
+{% extends "layout/site_base.html" %}
+
+{% block menu_sourcelist %}active{% endblock %}
+
+{% block subtitle %}Source list{% endblock %}
+
+{% block page_title %}Source list{% endblock %}
+
+{% block breadcrumb %}
+    <li class="active">Source list</li>
+{% endblock %}
+
+
+{% block content %}
+    <div class="row-fluid">
+        <a class="span8 offset2 link well well-list well-list-first important-link" href="{% url "source_create" %}">
+            Create a new source
+        </a>
+    </div>
+    {% for object in object_list %}
+        <div class="row-fluid">
+            <div class="span8 offset2 link link-color well well-list" data-url='{% url 'source_detail' object.pk %}'>
+                {% if object.is_public %}
+                    <i class="icon-eye-open"></i>
+                {% else %}
+                    <i class="icon-eye-close"></i>
+                {% endif %}
+                {{ object }}
+                <div class="pull-right">
+                    {% with count = object.archiveitems.count() %}
+                        <span class="badge badge-{% if count %}info{% endif %}">{{ count }}</span>
+                    {% endwith %}
+                    {% with status = object.archiveitems_refine_status %}
+                        <span class="badge badge-
+                        {%- if status == 1 -%}
+                            success
+                        {%- elif status == -1 -%}
+                            warning
+                        {%- endif %}">R</span>
+                    {% endwith %}
+
+                    {% with status = object.archiveitems_aggregator_status %}
+                        <span class="badge badge-
+                        {%- if status == 1 -%}
+                            success
+                        {%- elif status == -1 -%}
+                            warning
+                        {%- endif %}">A</span>
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content %}

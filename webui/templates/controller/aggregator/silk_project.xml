@@ -1,0 +1,62 @@
+{% from 'controller/aggregator/silk_blocks.xml' import prefixes, datasource, datasource_rexster, interlink -%}
+<Project>
+    <Config>
+        {{ prefixes(sd_prefix) }}
+    </Config>
+    <SourceModule>
+        <Tasks>
+            <SourceTask>
+                {{ datasource_rexster('master-graph', mastergraph_host, mastergraph_port, mastergraph_graphname, resource_namespace) }}
+            </SourceTask>
+            {% for archive_item in object.archiveitems.all() %}
+                <SourceTask>
+                    {{ datasource(archive_item|silk_id, sparql_endpoint, archive_item.datagraph_mapped_name) }}
+                </SourceTask>
+            {% endfor %}
+        </Tasks>
+    </SourceModule>
+    <LinkingModule>
+        <Tasks>
+            {% for archive_item in object.archiveitems.all() %}
+                <LinkingTask>
+                    <LinkSpecification>
+                        {{ interlink(aggregator, archive_item) }}
+                    </LinkSpecification>
+                    <Alignment>
+                        <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:align="http://knowledgeweb.semanticweb.org/heterogeneity/alignment#" xmlns="http://knowledgeweb.semanticweb.org/heterogeneity/alignment#">
+                            <Alignment />
+                        </rdf:RDF>
+                    </Alignment>
+                    <Cache>
+                        <Cache>
+                            <PositiveEntities />
+                            <NegativeEntities />
+                        </Cache>
+                    </Cache>
+                </LinkingTask>
+            {% endfor %}
+        </Tasks>
+    </LinkingModule>
+</Project>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

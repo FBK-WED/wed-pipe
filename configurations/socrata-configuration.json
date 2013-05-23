@@ -1,0 +1,17 @@
+{
+    "module" : "Socrata API Ingestion Module",
+    "input_params" : ["host", "database", "schema", "dataseturl"],
+    "vars" : {
+        "script" : "$ROOT/data_acquisition/socrata/ingest.py"
+    },
+    "actions" : [
+        {
+            "action"      : "perform-ingestion",
+            "description" : "perform Socrata API acquisition ingestion from the specified dataset.",
+            "command"     : "$script  --urlimporter --url '$dataseturl' '{ \"api\" : { \"host\"   : \"$host\", \"user\"   : \"mostarda@fbk.eu\", \"passwd\" : \"password\", \"token\"  : \"tokenID\" }, \"database\" : {\"db\" : \"$database\", \"schema\" : \"$schema\"} }'"
+        }
+    ],
+    "begin"    : "print 'Begin Socrata Ingestion'",
+    "end"      : "print 'End Socrata Ingestion'",
+    "error"    : "print 'Error while performing Socrata ingestion'"
+}

@@ -1,0 +1,35 @@
+{% extends "layout/site_base.html" %}
+
+{% block menu_tools %}active{% endblock %}
+
+{% block page_title %}Refine batch edit{% endblock %}
+
+{% block subtitle %}Refine batch{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{% url 'tools_list' %}">Tools list</a> <span class="divider">/</span></li>
+    <li class="active">Refine batch edit</li>
+{% endblock %}
+
+{% block content %}
+    <form method="GET" action=".">
+        {{ crispy(form) }}
+    </form>
+
+    {% if rules %}
+        <h1>Results</h1>
+        {% for rule_container in rules %}
+            {% set archiveitem=rule_container.archiveitem %}
+            <div>
+                <h3><a href="{{ archiveitem.get_absolute_url() }}">{{ archiveitem }}</a>, index {{ rule_container.index }}</h3>
+
+                <pre class="prettyprint pre-scrollable">{{ rule_container.doc|escape }}</pre>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
+
+{% block extrascript_body %}
+    {{ form.media|safe }}
+{% endblock extrascript_body %}

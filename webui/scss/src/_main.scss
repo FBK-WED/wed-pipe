@@ -1,0 +1,134 @@
+body {
+  padding-bottom: 50px;
+}
+
+form {
+  margin: 0;
+}
+
+input[type="file"] {
+  font-size: 11px;
+  line-height: initial;
+}
+
+.link {
+  cursor: pointer;
+
+  &.link-color {
+    color: $linkColor;
+
+    &:hover {
+      color: $linkColorHover;
+      text-decoration: underline;
+    }
+  }
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.vertical-middle {
+  vertical-align: middle !important;
+}
+
+.block {
+ display: block;
+}
+
+.important-link {
+  font-size: 20px;
+  text-align: center;
+}
+
+.create-form {
+  input, textarea, select {
+    width: 400px;
+  }
+  input, textarea {
+    @include box-sizing(border-box);
+    height: 100%;
+  }
+}
+
+.btn + .btn {
+  margin-left: 5px;
+}
+
+#dispatcher-handlers .controls {
+  @include transition(height .5s);
+
+  overflow: hidden;
+  height: 100px;
+
+  &.controls-open {
+    height: 300px;
+  }
+}
+
+/* Scheduler output */
+
+.logs {
+  .time {
+    color: #aaa;
+  }
+  .header {
+    font-weight: bold;
+
+    .msg {
+      border-color: transparent;
+    }
+  }
+
+  .msg {
+    border-left-width: 5px;
+    border-left-style: solid;
+    padding-left: 10px;
+    word-wrap: break-word;
+  }
+
+  .minor {
+    font-size: 90%;
+    color: gray;
+  }
+}
+
+.log {
+  margin-bottom: 5px;
+  line-height: 30px;
+}
+
+.loglevel-CRITICAL .msg{
+  border-color: violet;
+}
+
+.loglevel-ERROR .msg {
+  border-color: red;
+}
+
+.loglevel-WARNING .msg {
+  border-color: orange;
+}
+
+.loglevel-INFO .msg {
+  border-color: lightgray;
+}
+
+.loglevel-DEBUG .msg {
+  border-color: royalblue;
+}
+
+.hidden {
+  display: none;
+}
+
+/* enlarge your django ace */
+div.django-ace-widget {
+  width: 100%;
+}
+
+#div_id_query_string {
+  .ace_editor {
+    font-size: 14px;
+  }
+}

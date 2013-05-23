@@ -1,0 +1,146 @@
+{% extends "layout/site_base.html" %}
+{% from "controller/macros.html" import render_scheduler_of_dataset %}
+
+{% block menu_sourcelist %}active{% endblock %}
+
+{% block page_title %}{{ object.name }}{% endblock %}
+
+{#    <small>- dataset of#}
+{#        <a href="{{ object.source.get_absolute_url() }}">{{ object.source }}</a>#}
+{#    </small>#}
+
+{% block subtitle %}{{ object.name }}{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{% url 'source_list' %}">Source list</a> <span class="divider">/</span></li>
+    <li><a href="{{ object.source.get_absolute_url() }}">{{ object.source }}</a> <span class="divider">/</span></li>
+    <li class="active">{{ object.name }}</li>
+{% endblock %}
+
+{% block content %}
+    <div class="row-fluid">
+        <div class="span8">
+            <blockquote>{{ object.description }}</blockquote>
+            {% if object.tags.all() %}
+                <i class="icon-tag"></i> {{ object.tags.all()|join(', ') }}
+            {% endif %}
+        </div>
+
+        <div class="span4 border-left">
+            <h3>Actions</h3>
+            <ul>
+                <li><a href="{% url "dataset_update" object.pk %}">Edit</a>
+                </li>
+                <li><a href="{{ object.url }}">Original resource</a></li>
+                <li>
+                    <a id="execute-workflow" href="#">Execute workflow</a>
+
+                    <form id="execute-workflow-form" class="form-inline" method="POST" action="{% url "dataset_workflow" object.pk %}">
+                        {% csrf_token %}
+                    </form>
+                </li>
+                <li><h4>Linked data</h4>
+                    <ul>
+                        <li><a href="{{ object.metagraph_sparql_query_url }}">(raw) Meta Graph</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <hr>
+    <div class="row-fluid">
+        <div class="span8">
+            <div class="row-fluid">
+                <h3 class="span12">Dataset information</h3>
+            </div>
+            <div class="row-fluid">
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <td>Download</td>
+                        <td>{{ object.download }}</td>
+                    </tr>
+                    <tr>
+                        <td>Curator</td>
+                        <td>{{ object.curator }}</td>
+                    </tr>
+                    <tr>
+                        <td>License</td>
+                        <td>{{ object.license }}</td>
+                    </tr>
+                    <tr>
+                        <td>Encoding</td>
+                        <td>
+                            {% if object.encoding %}
+                                {{ object.encoding }}
+                            {% else %}
+                                Autodetect
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% if object.projection %}
+                        <tr>
+                            <td>Projection</td>
+                            <td>{{ object.projection }}</td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td>CSV options</td>
+                        <td>
+                            <small class="muted">Delimiter:</small>
+                            <strong>{{ object.csv_delimiter }}</strong>
+                            <small class="muted">Quote Character:</small>
+                            <strong>{{ object.csv_quotechar }}</strong>
+                        </td>
+                    </tr>
+                    {% if object.update_rule %}
+                        <tr>
+                            <td>Update rule</td>
+                            <td>{{ object.update_rule }}</td>
+                        </tr>
+                    {% endif %}
+                    {% if object.other_meta %}
+                        <tr>
+                            <td>Other meta</td>
+                            <td>{{ object.other_meta }}</td>
+                        </tr>
+                    {% endif %}
+                </table>
+            </div>
+
+            <div class="row-fluid">
+                <h3 class="span12">Geographic metadata</h3>
+            </div>
+
+            <div class="row-fluid">
+                <p>
+                    Bounding Box: {{ object.bounding_box }}
+                </p>
+            </div>
+
+            <div class="row-fluid">
+                <h3 class="span12">Archive Items</h3>
+            </div>
+
+            {% for archive_item in object.archive_items.all() %}
+                <div class="row-fluid">
+                    <div class="span12 link link-color well well-list {% if loop.first -%}well-list-first{%- endif %}" data-url="{{ archive_item.get_absolute_url() }}">
+                        {{ archive_item.file_target }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="span4 border-left">
+            <div class="row-fluid">
+                <h3 class="span12">Scheduler</h3>
+                <p>{{ render_scheduler_of_dataset(object) }}</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $('#execute-workflow').on('click', function () {
+                $('#execute-workflow-form').submit()
+            });
+        });
+    </script>
+{% endblock %}

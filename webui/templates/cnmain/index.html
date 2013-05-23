@@ -1,0 +1,110 @@
+{% extends 'layout/site_base.html' %}
+
+{% from "controller/macros.html" import render_scheduler %}
+
+{% block menu_home %}active{% endblock %}
+
+{% block page_title %}Welcome{% endblock %}
+
+{% block subtitle %}Welcome{% endblock %}
+
+{% block breadcrumb %}
+    <li class="active">Welcome</li>
+{% endblock %}
+
+{% block content %}
+    <h3 class="text-center">What do you want to do?</h3>
+
+    <hr>
+
+    <div class="row-fluid">
+        <div class="span3">
+            <ul>
+                <li>Source
+                    <ul>
+                        <li><a href="{% url "source_create" %}">Create a new one</a></li>
+                        <li><a href="{% url "source_list" %}">All sources</a></li>
+                    </ul>
+                </li>
+                <li>Aggregator
+                    <ul>
+                        <li><a href="{% url "aggregator_create" %}">Create a new one</a></li>
+                        <li><a href="{% url "aggregator_list" %}">All aggregators</a></li>
+                    </ul>
+                </li>
+                <li>Scheduler
+                    <ul>
+                        <li><a href="{% url "scheduler_list" %}">All schedulers</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="span9">
+            <div class="row-fluid">
+                <div class="span6">
+                    <h4 style="margin-bottom: 10px;">Last failed workflows</h4>
+                    {% if scheduler_list %}
+                        {{ render_scheduler(scheduler_list, None, True) }}
+                    {% else %}
+                        Yippie! No workflow failed!
+                    {% endif %}
+                </div>
+                <div class="span6">
+                    <h4 style="margin-bottom: 10px;">Archive Items info</h4>
+                    {% if unsynced_archiveitems %}
+                        <strong>Error!</strong> These Archive Items are out of sync!
+                        <ul>
+                            {% for item in unsynced_archiveitems %}
+                                <li><a href="{{ item.get_absolute_url() }}">{{ item.file_target }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        All Archive Items are synced
+                    {% endif %}
+
+                    <hr/>
+
+                    <h4 style="margin-bottom: 10px;">Workflow Queue</h4>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Task</th>
+                            </tr>
+                        </thead>
+                        {% for task in running_tasks %}
+                            <tr>
+                                <td class="text-center vertical-middle">
+                                    <span class="label label-success">R</span>
+                                </td>
+                                <td class="vertical-middle">
+                                    {% if task.content_object %}
+                                        <a href="{{ task.content_object.get_absolute_url() }}"
+                                           style="width: 290px;display: inline-block;overflow: hidden;">
+                                               {{ task.content_object.name  }}
+                                        </a>
+                                    {% else %}
+                                        <strong>Removed Object</strong>
+                                    {% endif %}
+                                    <br/>
+                                    <span>
+                                        {{ task.created|date }} at {{ task.created|time }}
+                                    </span>
+                                    <span class="pull-right">
+                                        <a href="{{ task.get_absolute_url() }}"><i class="icon-share"></i></a>
+                                        <a href="{% url "scheduler_result_detail_view" task.logger_name %}"><i class="icon-list-alt"></i></a>
+                                    </span>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td></td>
+                                <td>No active tasks</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

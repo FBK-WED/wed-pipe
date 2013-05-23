@@ -1,0 +1,137 @@
+{% macro render_scheduler_of_source(source, size=5) -%}
+    {{ render_scheduler(source.get_scheduler(size), source.pk, True, force_contenttype='source') }}
+{%- endmacro %}
+
+{% macro render_scheduler_of_dataset(dataset, size=5) -%}
+    {{ render_scheduler(dataset.get_scheduler(size), dataset.pk) }}
+{%- endmacro %}
+
+{% macro render_scheduler_of_aggregator(aggregator, size=5) -%}
+    {{ render_scheduler(aggregator.get_scheduler(size), aggregator.pk) }}
+{%- endmacro %}
+
+{% macro render_scheduler(scheduler_list, pk=None, show_label=False, force_contenttype=None) -%}
+    {% if scheduler_list %}
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    {% if show_label %}
+                        <th>Target</th>
+                    {% endif %}
+                    <th>Status</th>
+                    <th>Detail</th>
+                </tr>
+            </thead>
+            {% for scheduler in scheduler_list %}
+                <tr>
+                    <td>
+                        {% if show_label %}
+                            <span class="label">{{ scheduler.content_label }}</span>
+                            {% if scheduler.content_object %}
+                                <a href="{{ scheduler.content_object.get_absolute_url() }}">{{ scheduler.content_object.name }}</a>
+                            {% else %}
+                                <strong>Removed Object</strong>
+                            {% endif %}
+                        {% endif %}
+                        {{ scheduler.created.strftime('%H:%M, %d/%m/%Y') }}
+                    </td>
+                    <td class="text-center vertical-middle">{{ get_label_for_scheduler(scheduler.status) }}</td>
+                    <td class="text-center vertical-middle">
+                        <a href="{{ scheduler.get_absolute_url() }}"><i class="icon-share"></i></a>
+                        <a href="{% url "scheduler_result_detail_view" scheduler.logger_name %}"><i class="icon-list-alt"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% if pk %}
+            <a class="text-center block" href="{% url "scheduler_list" %}?model=
+            {%- if force_contenttype -%}
+                {{ force_contenttype }}
+            {%- else -%}
+                {{ scheduler_list[0].content_type.model }}
+            {%- endif -%}&pk={{ pk }}">see all</a>
+        {% endif %}
+    {% else %}
+        No scheduler found
+    {% endif %}
+{%- endmacro %}
+
+{% macro get_label_for_scheduler(status) -%}
+    {% if status == 'S' %}
+        <span class="label label-success">Success</span>
+    {% elif status == 'F' %}
+        <span class="label label-important">Fail</span>
+    {% elif status == 'I' %}
+        <span class="label label-warning">Invalid</span>
+    {% elif status == 'R' %}
+        <span class="label label-info">Running</span>
+    {% elif status == 'N' %}
+        <span class="label label-inverse">Incomplete</span>
+    {% endif %}
+{%- endmacro %}
+
+{% macro pagination(paginator, page_obj) -%}
+    <div class="pagination pagination-centered">
+        <ul>
+            <li {% if not page_obj.has_previous() %}class="disabled"{% endif %}>
+                {% if page_obj.has_previous() %}
+                    <a href=".?page={{ page_obj.previous_page_number() }}">Prev</a>
+                {% else %}
+                    <span>Prev</span>
+                {% endif %}
+            </li>
+
+            {% for page in paginator.page_range %}
+                <li {% if page == page_obj.number %}class="disabled"{% endif %}>
+                    <a href=".?page={{ page }}">{{ page }}</a>
+                </li>
+            {% endfor %}
+
+            <li {% if not page_obj.has_next() %}class="disabled"{% endif %}>
+                {% if page_obj.has_next() %}
+                    <a href=".?page={{ page_obj.next_page_number() }}">Next</a>
+                {% else %}
+                    <span>Next</span>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+{%- endmacro %}
+
+
+{% macro graph_stats_table(label, items, archiveitems, level='info') %}
+    <div class="row-fluid">
+        <div class="span4">
+          <h4>{{ label }}</h4>
+        </div>
+        <div class="span8 border-left">
+            <table class="table table-striped">
+                {% for row in items %}
+                    <tr>
+                        <td {% if row[0].value != '0' %}class="text-{{ level }}"{% endif %}>
+
+                            {% if row[0] and archiveitems[row[0].value.split('/')[-1]] %}
+                                <a target="_blank" href="{% url archiveitem_detail archiveitems[row[0].value.split('/')[-1]] %}">
+                                    {{ row[0].value }}
+                                </a>
+                            {% else %}
+                                {{ row[0].value }}
+                            {% endif %}
+
+                            {% if row[0].value != '0' %}
+                                {% if level == 'warning' %}
+                                    <i class="icon-warning-sign"></i>
+                                {% elif level == 'error' %}
+                                    <i class="icon-fire"></i>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        {% for elem in row[1:] %}
+                            <td>{{ elem.value }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{%- endmacro %}

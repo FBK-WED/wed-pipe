@@ -1,0 +1,23 @@
+# Dump of graph <http://data-test.venturi.eu/graph/mapped/304e83cfd894ed7c8d9d260f4bee3f42>, as of 2013-03-07 15:14:21
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ns1:    <http://ontologies.venturi.eu/v1#> .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/0>      rdf:type        ns1:BoardGame .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/1>      rdf:type        ns1:BoardGame .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/2>      rdf:type        ns1:BoardGame .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/3>      rdf:type        ns1:BoardGame .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/0>      ns1:year        "2008" .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/3>      ns1:year        "2009" .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/1>      ns1:year        "2000" .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/2>      ns1:year        "2002" .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/0>      ns1:name        "Dominion" .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/3>      ns1:name        "Small World" .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/1>      ns1:name        "Carcassonne" .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/2>      ns1:name        "Bang!" .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/0>      ns1:duration    "30 minutes" .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/2>      ns1:duration    "30 minutes" .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/1>      ns1:duration    "45 minutes" .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/3>      ns1:duration    "80 minutes" .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/0>      ns1:acheneID    "86b5bcba72691eea6c759eccb53f4270525527da" .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/1>      ns1:acheneID    "5f2d93ce9afb9596d4031ff51704c37255c3cbb6" .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/2>      ns1:acheneID    "e845900cec632f6db5e2937690855814e26bdc1e" .
+<http://data-test.venturi.eu/resource/source-4/dataset-4/archive-item-2/m/3>      ns1:acheneID    "102256eba5721694f1dcac55df25cae92e374144" .

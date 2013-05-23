@@ -1,0 +1,2 @@
+""" package for configuration settings
+"""

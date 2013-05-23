@@ -1,0 +1,18 @@
+{
+    "module" : "RDF Ingestion Module",
+    "input_params" : ["data", "graph"],
+    "vars" : {
+        "script" : "$python $ROOT/data_acquisition/manage.py rdf",
+        "venv": ". $virtual_env_path/bin/activate"
+    },
+    "actions":[
+        {
+            "action"      : "perform-ingestion",
+            "description" : "Download, convert compression and ingest a single RDF file into Virtuoso.",
+            "command"     : "$venv && $script -f '$data' -g '$graph' "
+        }
+    ],
+    "begin"    : "print 'Begin RDF Ingestion'",
+    "end"      : "print 'End RDF Ingestion'",
+    "error"    : "print 'Error while performing RDF ingestion'"
+}

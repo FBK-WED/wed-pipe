@@ -1,8 +1,0 @@
-*.pyc
-*.log
-static
-.env
-webui/reports
-.coverage
-coverage.xml
-nosetests.xml

@@ -1,0 +1,59 @@
+<h3>Module: {%=o.module%}</h3>
+<small>
+<script type="text/javascript">
+$(function() {
+	function insertAtCaret(areaId,text) {
+	    var txtarea = document.getElementById(areaId);
+	    var scrollPos = txtarea.scrollTop;
+	    var strPos = 0;
+	    var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ? 
+	        "ff" : (document.selection ? "ie" : false ) );
+	    if (br == "ie") { 
+	        txtarea.focus();
+	        var range = document.selection.createRange();
+	        range.moveStart ('character', -txtarea.value.length);
+	        strPos = range.text.length;
+	    }
+	    else if (br == "ff") strPos = txtarea.selectionStart;
+
+	    var front = (txtarea.value).substring(0,strPos);  
+	    var back = (txtarea.value).substring(strPos,txtarea.value.length); 
+	    txtarea.value=front+text+back;
+	    strPos = strPos + text.length;
+	    if (br == "ie") { 
+	        txtarea.focus();
+	        var range = document.selection.createRange();
+	        range.moveStart ('character', -txtarea.value.length);
+	        range.moveStart ('character', strPos);
+	        range.moveEnd ('character', 0);
+	        range.select();
+	    }
+	    else if (br == "ff") {
+	        txtarea.selectionStart = strPos;
+	        txtarea.selectionEnd = strPos;
+	        txtarea.focus();
+	    }
+	    txtarea.scrollTop = scrollPos;
+	}
+	
+	function appendParameters() {
+		textareaID    = '{%= o._textarea_id %}';
+		configuration = '{%= o._configuration_name %}';
+		parameters    = '{ {% for (var i=0; i < o.input_params.length; i++) { sep = i <  o.input_params.length - 1 ? "," : ""; %} "{%=o.input_params[i]%}" : "<FILLME>" {%=  sep %} {% } %} }';
+		console.log('textareaID: ' + textareaID);
+		insertAtCaret(textareaID, '("' + configuration + '", ' + parameters + ')' );
+	}
+
+	$('#append-parameters').click(function() {
+		appendParameters();
+		return false;
+	});
+});
+</script>
+<h4>Required parameters:</h4>
+<a href="#" id="append-parameters">Add Parameters</a></small>
+<ul>
+{% for (var i=0; i < o.input_params.length; i++) { %}
+    <li>{%=o.input_params[i]%}</li>
+{% } %}
+</ul>

@@ -1,0 +1,56 @@
+[class^="icon-"] {
+  background-image: image-url("/static/img/glyphicons-halflings.png");
+}
+
+.well.well-list {
+  @include border-radius(0);
+  @include box-shadow(none);
+  @include box-sizing(border-box);
+
+  background-color: white;
+  margin-bottom: 0;
+  border-top: 0;
+
+  &.well-list-first {
+    border-top: 1px solid #e3e3e3;
+  }
+
+  &:hover {
+    background: $grayFA;
+  }
+
+  .row-fluid .text-center {
+    line-height: 30px;
+  }
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: 200;
+  margin: 0;
+  &.with-margin {
+    margin: 10px 0;
+    // bootstrap default value
+  }
+}
+
+hr.collapsed {
+  margin: 0;
+}
+
+.border-left {
+  border-left: 1px solid $grayEE;
+  border-right: 1px solid white;
+  padding-left: 2.12766%;
+}
+
+.row-fluid [class*="span"].auto-height {
+  min-height: auto;
+}
+
+ul.no-list-style {
+  list-style: none;
+}
+
+.masthead {
+  margin-bottom: 30px;
+}

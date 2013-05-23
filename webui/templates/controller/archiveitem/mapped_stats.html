@@ -1,0 +1,31 @@
+{% extends 'layout/site_base.html' %}
+
+{% from "controller/macros.html" import graph_stats_table %}
+
+{% block page_title %}ArchiveItem Mapped Graph Stats{% endblock %}
+
+{% block subtitle %}ArchiveItem Mapped Graph Stats{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{% url 'source_list' %}">Source list</a> <span class="divider">/</span></li>
+    <li><a href="{{ object.dataset.source.get_absolute_url() }}">{{ object.dataset.source }}</a> <span class="divider">/</span></li>
+    <li><a href="{{ object.dataset.get_absolute_url() }}">{{ object.dataset.name }}</a> <span class="divider">/</span></li>
+    <li><a href="{{ object.get_absolute_url() }}">{{ object.file_target }}</a> <span class="divider">/</span></li>
+    <li class="active">ArchiveItem Mapped Graph Stats</li>
+{% endblock %}
+
+{% block content %}
+    <h3>POI</h3>
+    {{ graph_stats_table("Without Type", no_type, archiveitems, 'error') }}
+    {{ graph_stats_table("Without AcheneID", poi_no_achene, archiveitems, 'error') }}
+    {{ graph_stats_table("Without Category", poi_no_category, archiveitems, 'error') }}
+    {{ graph_stats_table("With old-style Category", poi_old_style_category, archiveitems, 'error') }}
+    {{ graph_stats_table("Without new-style geometries", poi_without_any_geometry, archiveitems, 'error') }}
+    {{ graph_stats_table("Geom[Point] without accuracy/provenance", poi_point_without_extra_info, archiveitems, 'error') }}
+    {{ graph_stats_table("Geom[Complex] without accuracy/provenance", poi_complex_without_extra_info, archiveitems, 'error') }}
+    {{ graph_stats_table("With Latitude, Longitude or Geometry", poi_latlon_and_geom, archiveitems, 'error') }}
+    {{ graph_stats_table("Without isInNUTS", poi_no_isinnuts, archiveitems, 'error') }}
+    {{ graph_stats_table("Without Name", poi_no_name, archiveitems, 'warning') }}
+    {{ graph_stats_table("Without Label", poi_no_label, archiveitems, 'warning') }}
+    {{ graph_stats_table("isInNUTS types", poi_isinnuts_type, archiveitems, 'info') }}
+{% endblock %}

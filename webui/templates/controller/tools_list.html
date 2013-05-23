@@ -1,0 +1,19 @@
+{% extends "layout/site_base.html" %}
+
+{% block menu_tools %}active{% endblock %}
+
+{% block page_title %}Tools{% endblock %}
+
+{% block subtitle %}Tools list{% endblock %}
+
+{% block breadcrumb %}
+    <li class="active">Tools list</li>
+{% endblock %}
+
+{% block content %}
+    <ul>
+        <li><a href="{% url "refine_batch_edit" %}">
+            Refine batch edit
+        </a></li>
+    </ul>
+{% endblock %}

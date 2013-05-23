@@ -1,0 +1,148 @@
+{% extends "layout/site_base.html" %}
+
+{% block menu_sourcelist %}active{% endblock %}
+
+{% block page_title %}Archive item{% endblock %}
+
+{% block subtitle %}Archive item{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{% url 'source_list' %}">Source list</a> <span class="divider">/</span></li>
+    <li><a href="{{ object.dataset.source.get_absolute_url() }}">{{ object.dataset.source }}</a> <span class="divider">/</span></li>
+    <li><a href="{{ object.dataset.get_absolute_url() }}">{{ object.dataset.name }}</a> <span class="divider">/</span></li>
+    <li class="active">Archive item</li>
+{% endblock %}
+
+{% block content %}
+    <div class="row-fluid">
+        <div class="span8">
+            {% if out_of_sync %}
+                <div class="alert alert-error fade in">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>Error!</strong>
+                    The rule and the ArchiveItem data are out of sync!
+                </div>
+            {% endif %}
+
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td>Dataset</td>
+                    <td>
+                        <a href="{{ object.dataset.get_absolute_url() }}">{{ object.dataset.name }}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Source</td>
+                    <td>
+                        <a href="{{ object.dataset.source.get_absolute_url() }}">{{ object.dataset.source }}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Table Name</td>
+                    <td>{{ object.tablename }}</td>
+                </tr>
+            </table>
+
+            {% if object.rule %}
+                <hr>
+                {{ form.media|safe }}
+                {{ crispy(form) }}
+            {% endif %}
+
+            {{ aggregator_form.media|safe }}
+            {{ crispy(aggregator_form) }}
+
+            {% for aggregator in object.aggregators.all() %}
+                <h4>Current Aggregators</h4>
+                <ul>
+                    <li>
+                        <form class="form-horizontal" method="POST" action="{% url "archiveitem_aggregator_del" object.pk %}">
+                            {% csrf_token %}
+                            <a href="{{ aggregator.get_absolute_url() }}">{{ aggregator }}</a>
+                            <input type="hidden" name="aggregator" value="{{ aggregator.pk }}">
+                            <input type="submit" class="btn btn-danger btn-mini" value="Delete">
+                        </form>
+                    </li>
+                </ul>
+            {% endfor %}
+        </div>
+        <div class="span4 border-left">
+            <h3>Actions</h3>
+            <ul>
+                <li>
+                    <h4>Download</h4>
+                    <ul>
+                        <li>
+                            <a href="{% url "archiveitem_csv" object.pk %}">Download as CSV</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h4>Refine</h4>
+                    <ul>
+                        <li>
+                            <form class="form-inline" method="POST" action="{% url "archiveitem_refine_create" object.pk %}">
+                                {% csrf_token %}
+                                <a href="#" class="post-link">
+                                    {% if object.refine_url %}Re-{% endif %}Create project in Refine
+                                </a>
+                                <br>
+                                <label for="refine_limit_id">
+                                    <small>Row limit</small>
+                                </label>
+                                <input id="refine_limit_id" class="input-mini" type="number" name="refine_limit" value="" />
+                            </form>
+                        </li>
+                        {% if object.refine_url %}
+                            <li>
+                                <a target="_blank" href="{{ object.refine_url }}">Open in Refine</a>
+                            </li>
+                            <li>
+                                <form method="POST" action="{% url "archiveitem_refine_fetch" object.pk %}">
+                                    {% csrf_token %}
+                                    <a href='#' class="post-link">Fetch rules from Refine</a>
+                                </form>
+                            </li>
+                            {% if object.rule %}
+                                <li>
+                                    <form method="POST" action="{% url "archiveitem_refine_push" object.pk %}">
+                                        {% csrf_token %}
+                                        <a href='#' class="post-link">Push rules to Refine</a>
+                                    </form>
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                        {% if out_of_sync %}
+                            <li>
+                                <form method="POST" action="{% url "archiveitem_refine_sync" object.pk %}">
+                                    {% csrf_token %}
+                                    <a href="#" class="post-link">Sync rules</a>
+                                </form>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </li>
+
+                <li>
+                    <h4>Linked data</h4>
+                    <ul>
+                        <li><a href="{{ object.metagraph_sparql_query_url }}">(raw) Meta Graph</a></li>
+                        <li><a href="{{ object.datagraph_sparql_raw_url }}">(raw) Data Graph</a></li>
+                        <li><a href="{{ object.datagraph_sparql_mapped_url }}">(mapped) Data Graph</a></li>
+                        <li><a href="{% url 'archiveitem_mapped_stats' object.pk %}">(mapped) Data Graph Stats</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extrascript_body %}
+    <script>
+        $(function(){
+            $('.post-link').on('click', function() {
+                $(this).closest('form').submit()
+            });
+        });
+    </script>
+{% endblock %}

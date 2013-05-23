@@ -1,0 +1,2 @@
+""" management commands in cnmain
+"""

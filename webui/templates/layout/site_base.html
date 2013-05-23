@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="utf-8">
+    <title>WED Pipe / {% block subtitle %}{% endblock %}</title>
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
+
+    <script src="{% static "js/deps/jquery.js" %}"></script>
+    <script src="{% static "js/deps/underscore-min.js" %}"></script>
+
+    <script>
+        window.csrftoken_name = '{{ settings.CSRF_COOKIE_NAME }}';
+    </script>
+
+    {% block extra_header %}
+    {% endblock %}
+</head>
+
+<body>
+    <div class="container">
+        <div class="masthead">
+            <ul class="nav nav-pills pull-right">
+                <li class="{% block menu_home %}{% endblock %}">
+                    <a href="{% url "index" %}">Home</a>
+                </li>
+                <li class="{% block menu_sourcelist %}{% endblock %}">
+                    <a href="{% url "source_list" %}">Sources</a>
+                </li>
+                <li class="{% block menu_aggregatorlist %}{% endblock %}">
+                    <a href="{% url "aggregator_list" %}">Aggregators</a>
+                </li>
+                <li class="{% block menu_slicerlist %}{% endblock %}">
+                    <a href="{% url "slicer_list" %}">Slicers</a>
+                </li>
+                <li class="{% block menu_schedulerlist %}{% endblock %}">
+                    <a href="{% url "scheduler_list" %}">Schedulers</a>
+                </li>
+                <li class="{% block menu_tools %}{% endblock %}">
+                    <a href="{% url "tools_list" %}">Tools</a>
+                </li>
+                <li class="{% block menu_accounts %}{% endblock %}">
+                    {% if user and user.is_authenticated() %}
+                        <a href="{% url 'logout' %}">Yo {{ user }}! Logout</a>
+                    {% else %}
+                        <a href="{% url 'login' %}">Login</a>
+                    {% endif %}
+                </li>
+            </ul>
+            <h3 class="muted with-margin">
+                <img src="{% static "img/logo-controller.png" %}" width="50" />
+                <a href="{% url "index" %}">WED Pipe</a></h3>
+        </div>
+
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} fade in">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>{{ message.tags }}!</strong>
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <ul class="breadcrumb">
+            <li><a href="{% url 'index' %}">Home</a> <span class="divider">/</span></li>
+            {% block breadcrumb %}{% endblock %}
+        </ul>
+
+        <h1>{% block page_title %}{% endblock %}</h1>
+        <hr class="collapsed-top">
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="{% static "js/deps/spin.min.js" %}"></script>
+    <script src="{% static "js/deps/bootstrap-typeahead.js" %}"></script>
+    <script src="{% static "js/deps/bootstrap-alert.js" %}"></script>
+    <script src="{% static "js/controller.js" %}"></script>
+
+    {% block extrascript_body %}{% endblock extrascript_body %}
+
+</body>
+</html>

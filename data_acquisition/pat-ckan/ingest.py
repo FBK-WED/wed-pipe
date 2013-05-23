@@ -1,6 +1,13 @@
 #!/opt/local/bin/python
 # -*- coding: utf-8 -*-
 
+"""
+@author Michele Mostarda (mostarda@fbk.eu)
+
+This script is responsible for downloading data from the Portale Geocartografico Trentino
+(http://www.territorio.provincia.tn.it) and ingest it into a CKAN instance.
+"""
+
 import os
 import re
 import traceback
@@ -13,22 +20,51 @@ import zipfile
 import requests
 import time
 import ckanclient
-import ckanclient.datastore
 
 from  ogr2reclinejs import OGR2Reclinejs
+
 
 _candidate_path = os.path.dirname(os.path.realpath(__file__)) + '/../pat'
 if not _candidate_path in sys.path:
     sys.path.insert(0, _candidate_path)
 
-from download_data import extract_page_metadata
+from download_data import download_index, extract_page_metadata
 
 WORK_DIR = 'work/'
 
+INDEX_FILE = 'index.html'
+
 XPATH_RULES = 'xpath_rules.lst'
 
-CKAN_HOST = 'http://pat-ckan.example.org'
-CKAN_API_KEY = '3c8dc838-7701-4e55-9487-6e4c286e87f9'
+# CKAN host URL
+CKAN_HOST    = 'http://localhost:5000'
+# CKAN API key
+CKAN_API_KEY = 'c4d48e00-5689-4a5d-892a-24302519c0cb'
+
+# patched ckanclient functions for upload
+def _post_multipart(self, selector, fields, files):
+    '''Post fields and files to an http host as multipart/form-data.
+
+    :param fields: a sequence of (name, value) tuples for regular form
+        fields
+    :param files: a sequence of (name, filename, value) tuples for data to
+        be uploaded as files
+
+    :returns: the server's response page
+
+    '''
+
+    from urlparse import urljoin, urlparse
+
+    content_type, body = self._encode_multipart_formdata(fields, files)
+
+    headers = self._auth_headers()
+    url = urljoin(self.base_location + urlparse(self.base_location).netloc, selector)
+    req = requests.post(url, data=dict(fields), files={files[0][0]: files[0][1:]}, headers=headers)
+    return req.status_code, req.error, req.headers, req.text
+
+# FIXME: monkey patching
+ckanclient.CkanClient._post_multipart = _post_multipart
 
 def download_url(url, file_name):
     data_stream = urllib2.urlopen(url)
@@ -80,9 +116,9 @@ def ingest_dataset(title, xml_url, tags=[]):
     download_url(xml_url, xml_file)
 
     # Download Zip
-    #zip_file = WORK_DIR + resource + '.zip'
-    #print 'ZIPFILE', zip_file
-    #download_url(zip_url, zip_file)
+    zip_file = WORK_DIR + resource + '.zip'
+    print 'ZIPFILE', zip_file
+    download_url(zip_url, zip_file)
 
     # Extract metadata JSON
     dom = libxml2.parseFile(xml_file)
@@ -107,20 +143,20 @@ def ingest_dataset(title, xml_url, tags=[]):
                 print 'ERROR while processing line [%s]' % rule, e
 
     # Decompress Zip
-    #decompressed_zip_dir = zip_file + '_unzip'
-    #unzip(zip_file, decompressed_zip_dir)
+    decompressed_zip_dir = zip_file + '_unzip'
+    unzip(zip_file, decompressed_zip_dir)
 
     # Convert zip/shp files to CSV
-    #csv_file = None # TODO: manage more than once
-    #for file in os.listdir(decompressed_zip_dir):
-    #    if file.endswith(".shp"):
-    #        shp_file = decompressed_zip_dir + '/' + file
-    #        print 'Converting file ...', shp_file
-    #        ogr2reclinejs = OGR2Reclinejs(shp_file, True)
-    #        ogr2reclinejs.conversion(WORK_DIR)
-    #        csv_file = WORK_DIR + file.replace('.shp', '.csv')
-    #csv_file = os.path.abspath(csv_file)
-    #print 'CSV FILE:', csv_file
+    csv_file = None # TODO: manage more than once
+    for file in os.listdir(decompressed_zip_dir):
+        if file.endswith(".shp"):
+            shp_file = decompressed_zip_dir + '/' + file
+            print 'Converting file ...', shp_file
+            ogr2reclinejs = OGR2Reclinejs(shp_file, True)
+            ogr2reclinejs.conversion(WORK_DIR)
+            csv_file = WORK_DIR + file.replace('.shp', '.csv')
+    csv_file = os.path.abspath(csv_file)
+    print 'CSV FILE:', csv_file
 
     # Create Dataset
     # http://docs.ckan.org/en/ckan-1.7/api-v2.html#model-api
@@ -141,9 +177,8 @@ def ingest_dataset(title, xml_url, tags=[]):
         u'license': u'Creative Commons CCZero',
         u'license_id': u'cc-zero',
         u'license_title': u'Creative Commons CCZero',
-        u'license_url': u'http://www.opendefinition.org/licenses/cc-zero'
+        u'license_url': u'http://creativecommons.org/publicdomain/zero/1.0/deed.it'
     }
-    print 'PAYLOAD:', payload
 
     print 'DATASET NAME:', dataset_name
     print 'TITLE:', title
@@ -169,11 +204,11 @@ def ingest_dataset(title, xml_url, tags=[]):
     #print 'Dataset ID:', id
 
     # Upload file to FileStore and create resource
-    #upload_data = ckan.upload_file(csv_file)
-    #upload_url = upload_data[0].replace('http://', CKAN_HOST)
-    #print 'Upload URL:', upload_url
-    #r = ckan.add_package_resource(dataset_name, upload_url, resource_type='data', format='csv')
-    #print 'Add package resource response:', json.dumps(r)
+    upload_data = ckan.upload_file(csv_file)
+    upload_url = upload_data[0].replace('http://', CKAN_HOST)
+    print 'Upload URL:', upload_url
+    r = ckan.add_package_resource(dataset_name, upload_url, resource_type='data', format='csv')
+    print 'Add package resource response:', json.dumps(r)
     #resource_id = r['resources'][-1]['id']
 
     # wait_for_mapping(resource_id)
@@ -201,7 +236,7 @@ def wait_for_mapping(id):
         time.sleep(3)
         try:
             try:
-                request = urllib2.urlopen(res)
+                urllib2.urlopen(res)
                 break
             except urllib2.HTTPError as e:
                 print e
@@ -219,7 +254,11 @@ def wait_for_mapping(id):
     print 'Wait for resource %s completed' % res
 
 def main():
-    index = sys.argv[1]
+    import os
+    index = os.path.join(WORK_DIR, INDEX_FILE)
+    if not os.path.exists(index):
+        download_index(index)
+
     index_content = file(index).read()
     metadata = extract_page_metadata(index_content)
     for record in metadata:

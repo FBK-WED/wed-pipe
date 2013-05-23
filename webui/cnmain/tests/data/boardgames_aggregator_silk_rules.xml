@@ -1,0 +1,8 @@
+<LinkageRule>
+    <Compare id="unnamed_10075" metric="levenshteinDistance" required="false" threshold="1.6893941936075525" weight="7">
+        <Input id="unnamed_10073" path="?a/sd:name" />
+        <Input id="unnamed_10074" path="?b/&lt;sd:name&gt;" />
+        <Param name="minChar" value="0" />
+        <Param name="maxChar" value="z" />
+    </Compare>
+</LinkageRule>

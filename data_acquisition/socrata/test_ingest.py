@@ -15,7 +15,7 @@ class SocrataImporterTestCase(unittest.TestCase):
 				'passwd' : 'socratasimplepassword',
 				'token'  : 'UKlVPco0dv3ik0NDhpLsP7NsY'
 			},
-			'database' : {'db' : 'wedpipe-test', 'schema' : 'plo'}
+			'database' : {'db' : 'venturi.fbk-test', 'schema' : 'plo'}
 		}
 		self.socrata_importer = SocrataPostGresImporter(conf)
 

@@ -9,7 +9,7 @@ Description
 Usage
 -----
  
-  $ ./ingest-data.sh -d wedpipe-test -s osm -a 'http://download.gfoss.it/osm/osm/regioni/trentino-alto_adige.osm.bz2'
+  $ ./ingest-data.sh -d venturi.fbk-test -s osm -a 'http://download.gfoss.it/osm/osm/regioni/trentino-alto_adige.osm.bz2'
 
   For more help:
 

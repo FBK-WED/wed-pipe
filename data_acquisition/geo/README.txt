@@ -10,7 +10,7 @@ Configuration
 -------------
 
   The configuration must be executed just once and will erase the entire content of the index.
-  $  psql -d wedpipe-test < geoindex.sql
+  $  psql -d venturi.fbk-test < geoindex.sql
 
 Usage
 -----
@@ -18,8 +18,8 @@ Usage
   Copy all geometries declared within table csv.tripadvisortrentorestaurants with ID in field 'url' and geometry in field 'the_geom'
   into the geometry index and return the ingestion version:
 
-    $psql -d wedpipe-test -c "SELECT copy_geometries('csv', 'tripadvisortrentorestaurants', 'url', 'the_geom')"
+    $psql -d venturi.fbk-test -c "SELECT copy_geometries('csv', 'tripadvisortrentorestaurants', 'url', 'the_geom')"
 
   Compute the proximity triples for the entities ingested at revision 5 with max distance 50.
 
-    $ psql -d wedpipe-test -c "SELECT to_ntriple(p) FROM compute_proximity(5, 50) as p" -o -
+    $ psql -d venturi.fbk-test -c "SELECT to_ntriple(p) FROM compute_proximity(5, 50) as p" -o -

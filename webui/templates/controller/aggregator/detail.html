@@ -1,0 +1,122 @@
+{% extends "layout/site_base.html" %}
+{% from "controller/macros.html" import render_scheduler_of_aggregator %}
+
+{% block menu_aggregatorlist %}active{% endblock %}
+
+{% block page_title %}{{ object.name }}{% endblock %}
+
+{% block subtitle %}{{ object.name }}{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{% url 'aggregator_list' %}">Aggregator list</a> <span class="divider">/</span></li>
+    <li class="active">{{ object.name }}</li>
+{% endblock %}
+
+{% block content %}
+    <div class="row-fluid">
+        <div class="span6">
+            <blockquote>{{ object.description }}</blockquote>
+            {% if object.silk_rule %}
+                {{ silk_rule_fake_form.media|safe }}
+                {{ silk_rule_fake_form.silk_rule|safe }}
+            {% endif %}
+        </div>
+        <div class="span6 border-left">
+            <h3>Actions</h3>
+            <ul>
+                <li>
+                    <a href="{% url "aggregator_update" object.pk %}">Edit</a>
+                </li>
+                <li>
+                    <form class="form-inline" method="POST" action="{% url "aggregator_workflow" object.pk %}">
+                        {% csrf_token %}
+                        <a class="execute-workflow" href="#">Execute workflow</a>
+                    </form>
+                </li>
+                <li>
+                    <form class="form-inline" method="POST" action="{% url "aggregator_workflow" object.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="force" value="true" />
+                        <a class="execute-workflow" href="#" title="This will force the execution of every archive item">
+                            Execute workflow (force)
+                        </a>
+                    </form>
+                </li>
+                <li>
+                    <h4>Silk</h4>
+                    <ul>
+                        <li>
+                            <a target="_blank" href="http://{{ settings.SILK_EXTERNAL_HOST }}:{{ settings.SILK_EXTERNAL_PORT }}/workbench/">Open SILK</a>
+                        </li>
+                        <li>
+                            <a href="{% url "aggregator_export" object.pk %}?download">Export as SILK project</a>
+                        </li>
+                        <li>
+                            <form id="silk_project_upload_form" method="post" enctype="multipart/form-data" action="{% url "aggregator_import" object.pk %}">
+                                {% csrf_token %}
+                                <li>
+                                    <a id="upload_silk_prj_btn" href="#">Upload SILK project</a>
+                                    <input id="silk_rule_file" type="file" name="silk_rule_file"/>
+                                </li>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <hr>
+    <div class="row-fluid">
+        <div class="span6">
+            <div class="row-fluid">
+                <h3 class="span12">ArchiveItems</h3>
+            </div>
+
+            {% for aggregator_archiveitem in object.aggregatorarchiveitem_set.all() %}
+                {% set archiveitem=aggregator_archiveitem.archiveitem %}
+
+                <div class="row-fluid">
+                    <div class="span12 link link-color well well-list {% if loop.first %}well-list-first{% endif %}" data-url='{{ archiveitem.get_absolute_url() }}'>
+                        <div class="pull-right">
+                            {% if aggregator_archiveitem.needs_update() %}
+                                <span class="badge badge-important" title="Needs update">U</span>
+                            {% else %}
+                                <span class="badge badge-success" title="Up-to-date">O</span>
+                            {% endif %}
+                        </div>
+                        <strong>{{ archiveitem.dataset.source }}</strong><br/>
+                        {{ archiveitem }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="span6 border-left">
+            <div class="row-fluid">
+                <h3 class="span12">Scheduler</h3>
+
+                {{ render_scheduler_of_aggregator(object) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block extrascript_body %}
+
+    <script type="text/javascript">
+        $(function(){
+            $('#upload_silk_prj_btn').click(function(){
+                if( $('#silk_rule_file').val() ) {
+                    $('#silk_project_upload_form').submit();
+                } else {
+                    alert('Please select a file to import');
+                }
+            });
+            $('.execute-workflow').on('click', function () {
+                $(this).closest('form').submit()
+            });
+        });
+    </script>
+
+{% endblock extrascript_body %}

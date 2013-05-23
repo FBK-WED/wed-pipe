@@ -1,0 +1,11 @@
+{% from 'controller/aggregator/silk_blocks.xml' import prefixes, datasource, datasource_rexster, interlink -%}
+<Silk>
+    {{ prefixes(sd_prefix) }}
+    <DataSources>
+        {{ datasource_rexster('master-graph', mastergraph_host, mastergraph_port, mastergraph_graphname, resource_namespace) }}
+        {{ datasource(archive_item|silk_id, sparql_endpoint, archive_item.datagraph_mapped_name) }}
+    </DataSources>
+    <Interlinks>
+        {{ interlink(aggregator, archive_item, with_output_file=output_filename) }}
+    </Interlinks>
+</Silk>

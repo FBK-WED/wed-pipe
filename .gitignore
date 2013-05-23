@@ -1,0 +1,22 @@
+*.py[co]
+*.log
+/webui/static/
+/webui/cnmain/static/css/*.css
+/.env
+/webui/reports
+/webui/settings_local.py
+.coverage
+coverage.xml
+nosetests.xml
+
+/build
+
+/webui/scss/.sass-cache
+
+# pycharm
+/.idea
+
+.DS_Store
+
+data_acquisition/silk/*.jar
+data_acquisition/silk/lib

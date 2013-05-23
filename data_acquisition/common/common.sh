@@ -11,7 +11,7 @@ COMMON_DIR="$(cd "$(dirname "$0")"; pwd -P)"
 TMP_DIR=/tmp
 
 # RDF NS
-PAT_GRAPH_PREFIX=http://vocab.wedpipe.it/pat/
+PAT_GRAPH_PREFIX=http://vocab.venturi.fbk.it/pat/
 
 # Spatial
 OGR2OGR_TOOL=ogr2ogr
@@ -25,41 +25,50 @@ SW_CSV_SERVICE="$SW_API/datastore/sqlite?format=csv"
 
 # PostGres
 PSQL=psql
-PSQL_HOST=vpn.example.org
+PSQL_HOST=vpn.venturi.fbk.eu
 PSQL_PORT=5432
-PSQL_USER=wedpipe
-PSQL_PWD=wedpipe
+PSQL_USER=venturi.fbk
+PSQL_PWD=password
+# DEFAULT DB
 PSQL_DB=controller-data
+# WED Pipe (Django) DB
 PSQL_DBC=controller-meta
 
 # Virtuoso iSQL
+REMOTE_USER=controller
 ISQL=isql-vt
+ISQL_HOST=localhost
 ISQL_PORT=1111
 ISQL_USER=dba
 ISQL_PWD=dba
 VIRTUOSO_DATA=/srv/virtuoso/data
 RDF_DIR=rdf
 
+if [ -e /etc/controller.conf ]; then
+    # override variables here
+    . /etc/controller.conf
+fi
+
 #### END:   configuration ####
 
 # export stuff for python sourcing
-export PSQL PSQL_HOST PSQL_PORT PSQL_USER PSQL_PWD ISQL ISQL_PORT ISQL_USER ISQL_PWD VIRTUOSO_DATA PSQL_DB PSQL_DBC
+export PSQL PSQL_HOST PSQL_PORT PSQL_USER PSQL_PWD ISQL ISQL_HOST ISQL_PORT ISQL_USER ISQL_PWD VIRTUOSO_DATA PSQL_DB PSQL_DBC REMOTE_USER
 
 decompress() {
 	local archive=$1
 	local target=$2
 
-	if [ "$archive" =~ '.tgz' || "$archive" =~ '.tar.gz' ]; then
+	if [[ "$archive" =~ '.tgz' || "$archive" =~ '.tar.gz' ]]; then
 		tar xvfz $archive -C $target || { echo "Error while decompressing archive $archive into $tmp_dir with TAR. Aborting."; exit 1; }
 		return
 	fi
 
-	if [ "$archive" =~ '.zip' ]; then
+	if [[ "$archive" =~ '.zip' ]]; then
 		unzip $archive -d $target || { echo "Error while decompressing archive $archive into $tmp_dir with ZIP. Aborting."; exit 1; }
 		return
 	fi
 
-	if [ "$archive" =~ '.bz2' ]; then
+	if [[ "$archive" =~ '.bz2' ]]; then
 		bunzip2 $archive || { echo "Error while decompressing archive $archive into $tmp_dir with BZIP. Aborting."; exit 1; }
 		mv ${archive/.bz2/} $target
 		return

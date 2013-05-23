@@ -1,0 +1,10 @@
+{% extends 'controller/source/base.html' %}
+
+{% block page_title %}Edit {{ object }}{% endblock %}
+
+{% block subtitle %}Edit {{ object }}{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{{ object.get_absolute_url() }}">{{ object }}</a> <span class="divider">/</span></li>
+    <li class="active">Edit</li>
+{% endblock %}

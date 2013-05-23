@@ -1,0 +1,18 @@
+{
+    "module" : "CSV/XLS(X) Ingestion Module",
+    "input_params" : ["schema", "data", "tablename", "encoding", "csv_delimiter", "csv_quotechar"],
+    "vars" : {
+        "script" : "$python $ROOT/data_acquisition/manage.py csv",
+        "venv": ". $virtual_env_path/bin/activate"
+    },
+    "actions" : [
+        {
+            "action"      : "perform-ingestion",
+            "description" : "Download and ingest a CSV/XLS/XLSX file into PostGres.",
+            "command"     : "$venv && $script -s '$schema' -f '$data' -t $tablename -E '$encoding' -D '$csv_delimiter' -q \"\\$csv_quotechar\""
+        }
+    ],
+    "begin"    : "print 'Begin CSV Ingestion'",
+    "end"      : "print 'End CSV Ingestion'",
+    "error"    : "print 'Error while performing CSV ingestion'"
+}

@@ -1,0 +1,48 @@
+{% extends "layout/site_base.html" %}
+{% from "controller/macros.html" import pagination, get_label_for_scheduler %}
+
+{% block subtitle %}Schedulers list{% endblock %}
+
+{% block menu_schedulerlist %}active{% endblock %}
+
+{% block page_title %}Scheduler list{% endblock %}
+
+{% block breadcrumb %}
+    <li class="active">Scheduler list</li>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Target</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        {% for object in object_list %}
+            <tr>
+                <td class="text-center">
+                    <span class="label">{{ object.content_label }}</span>
+                </td>
+                <td>
+                    <a href="{{ object.content_object.get_absolute_url() }}">{{ object.content_object }}</a>
+                </td>
+                <td>
+                    {{ object.created.strftime('%H:%M, %d/%m/%Y') }}
+                </td>
+                <td>
+                    {{ get_label_for_scheduler(object.status) }}
+                </td>
+                <td class="text-center">
+                    <a href="{{ object.get_absolute_url() }}"><i class="icon-share"></i></a>
+                    <a href="{% url "scheduler_result_detail_view" object.logger_name %}"><i class="icon-list-alt"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {{ pagination(paginator, page_obj) }}
+{% endblock content %}

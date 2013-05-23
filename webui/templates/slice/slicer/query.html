@@ -1,0 +1,16 @@
+<table class="table">
+    <thead>
+        {% for item in header %}
+            <th>{{ item }}</th>
+        {% endfor %}
+    </thead>
+    <tbody>
+        {% for row in results %}
+            <tr>
+                {% for item in header %}
+                    <td>{{ row[item] }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

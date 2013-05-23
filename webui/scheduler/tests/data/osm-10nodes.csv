@@ -1,0 +1,11 @@
+@id,@lat,@lon,name,historic,wikipedia,amenity,barrier,geological
+5892364,45.6273861,7.9807451,Basilica Antica,,,place_of_worship,,
+14000718,40.3848190,9.6525060,,,,,,
+14905771,42.0894252,11.7981793,Parcheggio,,,parking,,
+14942221,42.8828188,10.7906222,,,,parking,,
+20600193,46.0069373,9.0045981,Car park,,,parking,,
+20600194,46.0055233,9.0027243,,,,parking,,
+21027431,42.6304676,11.6625550,Madonna delle Grazie,,,place_of_worship,,
+21226153,45.4583173,9.1475026,,,,parking,,
+21226564,45.4637145,9.1502317,Joseph Tehillot,,,place_of_worship,,
+21227228,45.4623688,9.1573483,,,,parking,,

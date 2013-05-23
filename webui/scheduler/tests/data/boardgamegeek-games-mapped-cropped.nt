@@ -1,0 +1,13 @@
+# Dump of graph <http://data-test.venturi.eu/graph/mapped/2d5fad7a09279256525e83e903444921>, as of 2013-03-07 15:14:40, but cropped (without two objects)
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ns1:    <http://ontologies.venturi.eu/v1#> .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/0>      rdf:type        ns1:BoardGame .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/1>      rdf:type        ns1:BoardGame .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/0>      ns1:year        "2008" .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/1>      ns1:year        "2009" .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/1>      ns1:description "In Dominion: Intrigue (as with Dominion), each player starts with an identical, very small deck of cards. In the center of the table is a selection of other cards the players can \\\"buy\\\" as they can afford them. Through their selection of cards to buy, and how they play their hands as they draw them, the players construct their deck on the fly, striving for the most efficient path to the precious victory points by game end." .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/0>      ns1:description "In Dominion, each player starts with an identical, very small deck of cards. In the center of the table is a selection of other cards the players can \\\"buy\\\" as they can afford them. Through their selection of cards to buy, and how they play their hands as they draw them, the players construct their deck on the fly, striving for the most efficient path to the precious victory points by game end." .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/0>      ns1:name        "Dominion" .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/1>      ns1:name        "Dominion: Intrigue" .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/0>      ns1:acheneID        "92d347bc2b1ba82031731b7f361dc4547292d2db" .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/1>      ns1:acheneID        "0a89d27f6e03bb7251607e3c1deae5be8b3636a3" .

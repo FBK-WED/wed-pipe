@@ -1,0 +1,27 @@
+{% extends "layout/site_base.html" %}
+
+{% block menu_slicerlist %}active{% endblock %}
+
+{% block subtitle %}Slicer list{% endblock %}
+
+{% block page_title %}Slicer list{% endblock %}
+
+{% block breadcrumb %}
+    <li class="active">Slicer list</li>
+{% endblock %}
+
+
+{% block content %}
+    <div class="row-fluid">
+        <a class="span8 offset2 link well well-list well-list-first important-link" href="{% url "slicer_create" %}">
+            Create a new Slicer
+        </a>
+    </div>
+    {% for object in object_list %}
+        <div class="row-fluid">
+            <div class="span8 offset2 link link-color well well-list" data-url='{{ object.get_absolute_url() }}'>
+                {{ object }}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content %}

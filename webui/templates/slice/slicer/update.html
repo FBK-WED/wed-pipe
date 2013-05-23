@@ -1,0 +1,54 @@
+{% extends "layout/site_base.html" %}
+
+{% block menu_slicerlist %}active{% endblock %}
+
+{% block page_title %}{{ object.name }}{% endblock %}
+
+{% block subtitle %}{{ object.name }}{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{% url 'slicer_list' %}">Slicer list</a> <span class="divider">/</span></li>
+    <li class="active">{{ object.name }}</li>
+{% endblock %}
+
+{% block content %}
+    {{ form.media|safe }}
+    {{ crispy(form) }}
+
+    <hr>
+
+    <div id="query_alert" class="alert alert-error hide">
+        <strong>Error!</strong>
+        <span id="query_error"></span>
+    </div>
+
+    <div id="query_result">
+    </div>
+{% endblock %}
+
+
+{% block extrascript_body %}
+<script>
+    $('#form-buttons .hide').show();
+
+    $('#run_query').on('click', function() {
+        var query = $("#id_query_string").val()
+          , fields = $("#id_fields").val();
+
+        $("#query_alert").hide();
+        $("#query_result").html("Loading...");
+        $.post("{% url 'slicer_query' %}", {query: query, fields: fields})
+            .done(function(data) {
+                $("#query_result").html(data);
+            })
+            .fail(function(data) {
+                $("#query_alert").show();
+                $("#query_error")
+                    .empty()
+                    .append($('<pre/>')
+                    .text(data.responseText));
+                $("#query_result").empty();
+            });
+    });
+</script>
+{% endblock %}

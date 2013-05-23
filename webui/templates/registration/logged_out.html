@@ -1,0 +1,12 @@
+{% extends 'layout/site_base.html' %}
+
+{% block menu_accounts %}active{% endblock %}
+
+{% block page_title %}Logout{% endblock %}
+
+{% block subtitle %}Logout{% endblock %}
+
+{% block content %}
+    <h3 class="text-center">bye bye!</h3>
+    <a class="text-center block" href="{% url "index" %}">goto home</a>
+{% endblock %}

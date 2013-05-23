@@ -1,0 +1,147 @@
+{% extends "layout/site_base.html" %}
+{% from "controller/macros.html" import render_scheduler_of_source %}
+
+{% block menu_sourcelist %}active{% endblock %}
+
+{% block page_title %}{{ object.name }}{% endblock %}
+
+{% block subtitle %}{{ object.name }}{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{% url 'source_list' %}">Source list</a> <span class="divider">/</span></li>
+    <li class="active">{{ object.name }}</li>
+{% endblock %}
+
+{% block content %}
+    <div class="row-fluid">
+        <div class="span6">
+            <blockquote>{{ object.description }}</blockquote>
+            {% if object.tags.all() %}
+                <i class="icon-tag"></i> {{ object.tags.all()|join(', ') }}
+            {% endif %}
+        </div>
+
+        <div class="span6 border-left">
+            <h3>Actions</h3>
+            <ul>
+                <li><a href="{% url "source_update" object.pk %}">Edit</a></li>
+                <li><a href="{{ object.scraper_url() }}">Goto scraper</a></li>
+                <li>
+                    <form id="execute-workflow-form" class="form-inline" method="POST" action="{% url "source_workflow" object.pk %}">
+                        {% csrf_token %}
+                        <label for="last_executed_id">
+                            <a id="execute-workflow" href="#">Execute workflow</a>
+                            <small>Skip if executed since (secs)</small>
+                        </label>
+                        <input id="last_executed_id" class="input-mini" type="number" name="last_executed" value="0" />
+                    </form>
+                </li>
+                <li><h4>Linked data</h4>
+                    <ul>
+                        <li><a href="{{ object.metagraph_sparql_query_url }}">(raw) Meta Graph</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row-fluid">
+        <div class="span6">
+            {% if object.scraperwiki_url or object.scraperwiki_url or object.scraper_api_key %}
+                <div class="row-fluid">
+                    <h3 class="span12">Datasets configuration</h3>
+                </div>
+                <div class="row-fluid">
+                    <table class="table table-bordered table-striped">
+                        {% if object.scraperwiki_url %}
+                            <tr>
+                                <td>Scraperwiki url</td>
+                                <td>{{ object.scraperwiki_url }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if object.scraper_name %}
+                            <tr>
+                                <td>Scraper name</td>
+                                <td>{{ object.scraper_name }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if object.scraper_api_key %}
+                            <tr>
+                                <td>Scraper api key</td>
+                                <td>{{ object.scraper_api_key }}</td>
+                            </tr>
+                        {% endif %}
+                    </table>
+                </div>
+            {% endif %}
+
+            <div class="row-fluid">
+                <h3 class="span12">Datasets</h3>
+            </div>
+
+            <div class="row-fluid well well-list well-list-first border-box">
+                <span id="create-new-dataset" class="span12 auto-height link link-color important-link">Add a new dataset</span>
+
+                <div class="clearfix"></div>
+                <hr class="row-fluid hide">
+                <div class="row-fluid hide">
+                    {% if object.has_scraper() %}
+                        <form class="span4 text-center" method="POST" action="{% url "source_fetch_metadata" object.pk %}">
+                            {% csrf_token %}
+                            <span class="submit-form link link-color">Update scraperwiki metadata</span>
+                        </form>
+                    {% endif %}
+                    <a href="{% url "dataset_create" object.pk %}" class="{% if object.has_scraper() %}span4 border-left{% else %}span6{% endif %} text-center">Manually</a>
+                    <span id="upload-csv" class="{% if object.has_scraper() %}span4{% else %}span6{% endif %} border-left link link-color text-center">Upload tab-separated CSV</span>
+
+                    <form class="auto-submit hide" method="POST" action="{% url "source_upload_metadata" object.pk %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="upload_csv_file" />
+
+                        <p></p>
+                    </form>
+                </div>
+            </div>
+
+            {% for dataset in object.datasets.all() %}
+                <div class="row-fluid">
+                    <div class="span12 link link-color well well-list" data-url='{{ dataset.get_absolute_url() }}'>
+                        {{ dataset.name }}
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+        <div class="span6 border-left">
+            <div class="row-fluid">
+                <h3 class="span12">Scheduler</h3>
+
+                {{ render_scheduler_of_source(object) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extrascript_body %}
+    <script>
+        $(function () {
+            $('.submit-form').on('click', function () {
+                $(this).closest('form').submit();
+            });
+            $('.auto-submit').find('input').on('change', function () {
+                $(this).closest('form').submit();
+            });
+            $('#upload-csv').on('click', function () {
+                $('.auto-submit').find('input').click();
+            });
+            $('#create-new-dataset').on('click', function () {
+                $(this).siblings('.row-fluid').slideToggle();
+            });
+            $('#execute-workflow').on('click', function () {
+                $('#execute-workflow-form').submit()
+            })
+        });
+    </script>
+{% endblock extrascript_body %}

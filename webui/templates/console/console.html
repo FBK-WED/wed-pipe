@@ -1,0 +1,52 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'WED Pipe Console' %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<style type="text/css">
+    .widget {
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid gray;
+    }
+
+    .spinner {
+        display: none;
+    }
+
+    hr {
+        background-color: black;
+    }
+
+    #id_dataset {
+        width: 400px;
+    }
+</style>
+
+<div class="widget">
+    <h3>OSM Importer</h3>
+
+    <form id="import-osm-form" enctype="multipart/form-data" action="/import/osm/" method="POST">
+        {% csrf_token %}
+        {{ osm_import_form.as_p }}
+        <input type="submit" value="Upload">
+    </form>
+</div>
+
+<img class="spinner" id="spinner" src="/static/ajax-loader.gif"/>
+<div id="message"></div>
+
+<div class="widget" id="console" style="display:none">
+    <div>
+        <a id="console-log-close" href="#" target="_blank" style="float: right;">Close</a>
+
+        <h3>Acquisition Live Output</h3>
+    </div>
+    <div id="console-log"></div>
+</div>
+
+{% endblock %}

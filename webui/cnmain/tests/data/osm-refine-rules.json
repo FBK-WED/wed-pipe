@@ -1,0 +1,120 @@
+[
+  {
+    "operation": {
+      "baseColumnName": "@id",
+      "description": "Create column acheneID at index 1 based on column @id using expression grel:sha1(\"winteriscoming\" + value)",
+      "onError": "set-to-blank",
+      "newColumnName": "acheneID",
+      "columnInsertIndex": 1,
+      "engineConfig": {
+        "facets": [],
+        "mode": "row-based"
+      },
+      "expression": "grel:sha1(\"winteriscoming\" + value)",
+      "op": "core/column-addition"
+    },
+    "description": "Create new column acheneID based on column @id by filling 10 rows with grel:sha1(\"winteriscoming\" + value)"
+  },
+  {
+    "operation": {
+      "schema": {
+        "baseUri": "http://localhost:3333/",
+        "prefixes": [
+          {
+            "name": "rdfs",
+            "uri": "http://www.w3.org/2000/01/rdf-schema#"
+          },
+          {
+            "name": "foaf",
+            "uri": "http://xmlns.com/foaf/0.1/"
+          },
+          {
+            "name": "owl",
+            "uri": "http://www.w3.org/2002/07/owl#"
+          },
+          {
+            "name": "xsd",
+            "uri": "http://www.w3.org/2001/XMLSchema#"
+          },
+          {
+            "name": "sd",
+            "uri": "http://ontologies.venturi.eu/v1#"
+          },
+          {
+            "name": "rdf",
+            "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+          }
+        ],
+        "rootNodes": [
+          {
+            "isRowNumberCell": false,
+            "rdfTypes": [
+              {
+                "curie": "sd:POI",
+                "uri": "http://ontologies.venturi.eu/v1#POI"
+              }
+            ],
+            "nodeType": "cell-as-resource",
+            "links": [
+              {
+                "curie": "sd:acheneID",
+                "uri": "http://ontologies.venturi.eu/v1#acheneID",
+                "target": {
+                  "isRowNumberCell": false,
+                  "expression": "value",
+                  "nodeType": "cell-as-literal",
+                  "columnName": "acheneID"
+                }
+              },
+              {
+                "curie": "sd:latitude",
+                "uri": "http://ontologies.venturi.eu/v1#latitude",
+                "target": {
+                  "isRowNumberCell": false,
+                  "expression": "value",
+                  "nodeType": "cell-as-literal",
+                  "columnName": "@lat"
+                }
+              },
+              {
+                "curie": "sd:longitude",
+                "uri": "http://ontologies.venturi.eu/v1#longitude",
+                "target": {
+                  "isRowNumberCell": false,
+                  "expression": "value",
+                  "nodeType": "cell-as-literal",
+                  "columnName": "@lon"
+                }
+              },
+              {
+                "curie": "sd:name",
+                "uri": "http://ontologies.venturi.eu/v1#name",
+                "target": {
+                  "isRowNumberCell": false,
+                  "expression": "value",
+                  "nodeType": "cell-as-literal",
+                  "columnName": "name"
+                }
+              },
+              {
+                "curie": "rdfs:label",
+                "uri": "http://www.w3.org/2000/01/rdf-schema#label",
+                "target": {
+                  "isRowNumberCell": false,
+                  "expression": "value",
+                  "nodeType": "cell-as-literal",
+                  "columnName": "name"
+                }
+              }
+            ],
+            "columnName": "acheneID",
+            "expression": "value"
+          }
+        ]
+      },
+      "description": "Save RDF schema skeleton",
+      "op": "rdf-extension/save-rdf-schema"
+    },
+    "description": "Save RDF schema skeleton"
+  }
+]

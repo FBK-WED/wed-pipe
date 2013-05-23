@@ -1,0 +1,14 @@
+django-nose==1.1
+nose==1.2.1
+
+pylint==0.27.0
+logilab-astng==0.24.2
+logilab-common==0.59.0
+
+pep8==1.4.4
+
+coverage==3.6
+
+mock==1.0.1
+
+nose-blockage==0.1.2

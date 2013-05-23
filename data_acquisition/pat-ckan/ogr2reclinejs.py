@@ -3,6 +3,8 @@
 Created on Sun Aug  5 21:22:51 2012
 @author: Maurizio Napolitano
 MIT License
+
+This library is meant to convert OGR files to JSON format supported by Recline.js (http://okfnlabs.org/recline/)
 """
 import os,csv
 

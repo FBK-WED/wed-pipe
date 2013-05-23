@@ -1,0 +1,32 @@
+{% set field_id = uuid() %}
+<input type="text" value="{{ value }}" placeholder="Scraper name" id="{{ field_id }}" name="{{ name }}" autocomplete="off" />
+
+<script>
+    $(function () {
+        "use strict";
+        var $this = $('#{{ field_id }}'),
+            scraperwiki_field = $this.closest('form').find('[name="{{ scraperwiki_field }}"]');
+
+        $this.typeahead({
+            minLength: 2,
+            source: function (query, process) {
+                var base_url = scraperwiki_field.val();
+
+                $.ajax({
+                    url: base_url + '/api/1.0/scraper/search',
+                    data: {
+                        format: 'jsondict',
+                        searchquery: query,
+                        'maxrows': 8
+                    },
+                    dataType: 'jsonp',
+                    success: function (data, status, jqxhr) {
+                        process(_.map(data, function (el) {
+                            return el.short_name
+                        }));
+                    }
+                })
+            }
+        })
+    });
+</script>

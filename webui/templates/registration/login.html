@@ -1,0 +1,18 @@
+{% extends 'layout/site_base.html' %}
+
+{% block menu_accounts %}active{% endblock %}
+
+{% block page_title %}Login{% endblock %}
+
+{% block subtitle %}Login{% endblock %}
+
+{% block content %}
+    <div class="row-fluid">
+        <form method="POST" class="form-horizontal span6 offset3">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="hidden" name="next" value="{% url 'index' %}" />
+            <input type="submit" class="btn btn-primary pull-right" />
+        </form>
+    </div>
+{% endblock %}

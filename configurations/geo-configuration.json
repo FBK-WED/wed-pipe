@@ -1,0 +1,18 @@
+{
+    "module" : "SHP Ingestion Module",
+    "input_params" : ["data", "output", "encoding", "proj"],
+    "vars" : {
+        "script" : "$python $ROOT/data_acquisition/manage.py shp",
+        "venv": ". $virtual_env_path/bin/activate"
+    },
+    "actions" : [
+        {
+            "action"      : "perform-ingestion",
+            "description" : "perform SHP files ingestion from given archive.",
+            "command"     : "$venv && $script -f '$data' -o '$output' -E '$encoding' -p '$proj'"
+        }
+    ],
+    "begin"    : "print 'Begin Geo Ingestion'",
+    "end"      : "print 'End Geo Ingestion'",
+    "error"    : "print 'Error while performing Geo ingestion'"
+}

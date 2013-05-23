@@ -1,0 +1,2 @@
+[run]
+omit = *env*/src*, *env*/lib*, *migrations*, *webui/settings*.py

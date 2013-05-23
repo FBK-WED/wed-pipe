@@ -4,7 +4,7 @@ SOCRATA Acquisition README
 This tool can be used to:
 
     - Ingest all available portal views into PostGres; (useful for debugging purposes)
-    - Generate the portal metadata JSON to drive the ingestion process from the SD Controller
+    - Generate the portal metadata JSON to drive the ingestion process from the SD WED Pipe
       (useful to be run within ScraperWiki);
     - Ingest a single dataset URL (used within the workflow).
 
@@ -40,10 +40,10 @@ Run Describe
    \"api\" : {\
        \"host\"   : \"https://dati.lombardia.it\",\
        \"user\"   : \"mostarda@fbk.eu\",\
-       \"passwd\" : \"socratasimplepassword\",\
-       \"token\"  : \"UKlVPco0dv3ik0NDhpLsP7NsY\"\
+       \"passwd\" : \"password\",\
+       \"token\"  : \"tokenID\"\
    },\
-   \"database\" : {\"db\" : \"wedpipe-test\", \"schema\" : \"plo\"}\
+   \"database\" : {\"db\" : \"venturi.fbk-test\", \"schema\" : \"plo\"}\
 }"
 
 Run Describe JSON
@@ -53,10 +53,10 @@ Run Describe JSON
    \"api\" : {\
        \"host\"   : \"https://dati.lombardia.it\",\
        \"user\"   : \"mostarda@fbk.eu\",\
-       \"passwd\" : \"socratasimplepassword\",\
-       \"token\"  : \"UKlVPco0dv3ik0NDhpLsP7NsY\"\
+       \"passwd\" : \"password\",\
+       \"token\"  : \"tokenID\"\
    },\
-   \"database\" : {\"db\" : \"wedpipe-test\", \"schema\" : \"plo\"}\
+   \"database\" : {\"db\" : \"venturi.fbk-test\", \"schema\" : \"plo\"}\
 }"
 
 Run Importer
@@ -66,10 +66,10 @@ Run Importer
    \"api\" : {\
        \"host\"   : \"https://dati.lombardia.it\",\
        \"user\"   : \"mostarda@fbk.eu\",\
-       \"passwd\" : \"socratasimplepassword\",\
-       \"token\"  : \"UKlVPco0dv3ik0NDhpLsP7NsY\"\
+       \"passwd\" : \"password\",\
+       \"token\"  : \"tokenID\"\
    },\
-   \"database\" : {\"db\" : \"wedpipe-test\", \"schema\" : \"plo\"}\
+   \"database\" : {\"db\" : \"venturi.fbk-test\", \"schema\" : \"plo\"}\
 }"
 
 Run URL Importer
@@ -79,8 +79,8 @@ Run URL Importer
    \"api\" : {\
        \"host\"   : \"https://dati.lombardia.it\",\
        \"user\"   : \"mostarda@fbk.eu\",\
-       \"passwd\" : \"socratasimplepassword\",\
-       \"token\"  : \"UKlVPco0dv3ik0NDhpLsP7NsY\"\
+       \"passwd\" : \"password\",\
+       \"token\"  : \"tokenID\"\
    },\
-   \"database\" : {\"db\" : \"wedpipe-test\", \"schema\" : \"plo\"}\
+   \"database\" : {\"db\" : \"venturi.fbk-test\", \"schema\" : \"plo\"}\
 }"

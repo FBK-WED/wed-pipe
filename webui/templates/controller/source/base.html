@@ -1,0 +1,15 @@
+{% extends 'layout/site_base.html' %}
+
+{% block menu_sourcelist %}active{% endblock %}
+
+{% block content %}
+    {{ form.media|safe }}
+    {{ crispy(form) }}
+
+    <script>
+        $('#dispatcher-handlers').find('.controls').on('click', function() {
+            $(this).addClass('controls-open');
+        });
+    </script>
+{% endblock %}
+

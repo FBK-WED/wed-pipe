@@ -1,0 +1,41 @@
+{% extends "layout/site_base.html" %}
+{% from "controller/macros.html" import get_label_for_scheduler %}
+
+{% block page_title %}Scheduler detail{% endblock %}
+
+{% block subtitle %}Scheduler detail{% endblock %}
+
+{% block breadcrumb %}
+    {% if object.content_type.model == 'dataset' %}
+        <li><a href="{{ object.content_object.source.get_absolute_url() }}">{{ object.content_object.source }}</a> <span class="divider">/</span></li>
+    {% endif %}
+    <li><a href="{{ object.content_object.get_absolute_url() }}">{{ object.content_object }}</a> <span class="divider">/</span></li>
+    <li class="active">Scheduler detail</li>
+{% endblock %}
+
+{% block content %}
+    <div class="span8 offset2">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <td>Target</td>
+                <td>
+                    <a href="{{ object.content_object.get_absolute_url() }}">{{ object.content_object }}</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Date</td>
+                <td>
+                    {{ object.created.strftime('%H:%M, %d/%m/%Y') }}
+                </td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td>{{ get_label_for_scheduler(object.status) }}</td>
+            </tr>
+            <tr>
+                <td>Log</td>
+                <td><a href="{% url "scheduler_result_detail_view" object.logger_name %}">Log</a></td>
+            </tr>
+        </table>
+    </div>
+{% endblock content %}

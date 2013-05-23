@@ -1,0 +1,27 @@
+{% extends "layout/site_base.html" %}
+
+{% block menu_aggregatorlist %}active{% endblock %}
+
+{% block subtitle %}Aggregator list{% endblock %}
+
+{% block page_title %}Aggregator list{% endblock %}
+
+{% block breadcrumb %}
+    <li class="active">Aggregator list</li>
+{% endblock %}
+
+
+{% block content %}
+    <div class="row-fluid">
+        <a class="span8 offset2 link well well-list well-list-first important-link" href="{% url "aggregator_create" %}">
+            Create a new Aggregator
+        </a>
+    </div>
+    {% for object in object_list %}
+        <div class="row-fluid">
+            <div class="span8 offset2 link link-color well well-list" data-url='{% url 'aggregator_detail' object.pk %}'>
+                {{ object }}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content %}

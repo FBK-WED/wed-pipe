@@ -1,0 +1,59 @@
+<Silk>
+  <Prefixes>
+    <Prefix namespace="http://www.w3.org/2002/07/owl#" id="owl"></Prefix>
+    <Prefix namespace="http://www.w3.org/1999/02/22-rdf-syntax-ns#" id="rdf"></Prefix>
+    <Prefix namespace="http://www.w3.org/2000/01/rdf-schema#" id="rdfs"></Prefix>
+    <Prefix namespace="http://data.venturi.fbk.eu/ontology/" id="sd"></Prefix>
+  </Prefixes>
+  <DataSources>
+    <DataSource type="sparqlEndpoint" id="crushsite">
+      <Param name="pageSize" value="1000"></Param>
+      <Param name="pauseTime" value="0"></Param>
+      <Param name="retryCount" value="3"></Param>
+      <Param name="endpointURI" value="http://controller.venturi.fbk.eu:8890/sparql"></Param>
+      <Param name="retryPause" value="1000"></Param>
+      <Param name="graph" value="http://data.venturi.fbk.eu/graph/mapped/b70ee2697b948181b6c2948164fe2adb"></Param>
+      <Param name="login" value=""></Param>
+      <Param name="entityList" value=""></Param>
+      <Param name="password" value=""></Param>
+      <Param name="additionalParameters" value=""></Param>
+    </DataSource>
+    <DataSource type="sparqlEndpoint" id="ticketone">
+      <Param name="pageSize" value="1000"></Param>
+      <Param name="pauseTime" value="0"></Param>
+      <Param name="retryCount" value="3"></Param>
+      <Param name="endpointURI" value="http://controller.venturi.fbk.eu:8890/sparql"></Param>
+      <Param name="retryPause" value="1000"></Param>
+      <Param name="graph" value="http://data.venturi.fbk.eu/graph/mapped/91ede595c0ba97b6493d61b91f87c0be"></Param>
+      <Param name="login" value=""></Param>
+      <Param name="entityList" value=""></Param>
+      <Param name="password" value=""></Param>
+      <Param name="additionalParameters" value=""></Param>
+    </DataSource>
+  </DataSources>
+  <Interlinks>
+    <Interlink id="event-join">
+      <LinkType>owl:sameAs</LinkType>
+      <SourceDataset dataSource="crushsite" var="a">
+        <RestrictTo> ?a &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://data.venturi.fbk.eu/ontology/Event&gt; . </RestrictTo>
+      </SourceDataset>
+      <TargetDataset dataSource="ticketone" var="b">
+        <RestrictTo> ?b &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://data.venturi.fbk.eu/ontology/Event&gt; . </RestrictTo>
+      </TargetDataset>
+      <LinkageRule>
+        <Compare weight="1" threshold="0.0" required="false" metric="levenshtein" id="unnamed_5">
+          <TransformInput function="lowerCase" id="unnamed_3">
+            <Input path="?a/sd:Event#name" id="unnamed_1"></Input>
+          </TransformInput>
+          <TransformInput function="lowerCase" id="unnamed_4">
+            <Input path="?b/sd:Event#name" id="unnamed_2"></Input>
+          </TransformInput>
+          <Param name="minChar" value="0"></Param>
+          <Param name="maxChar" value="z"></Param>
+        </Compare>
+      </LinkageRule>
+      <Filter></Filter>
+      <Outputs> </Outputs>
+    </Interlink>
+  </Interlinks>
+</Silk>

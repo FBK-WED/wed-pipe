@@ -1,0 +1,17 @@
+{% extends 'layout/site_base.html' %}
+
+{% block menu_aggregatorlist %}active{% endblock %}
+
+{% block subtitle %}Edit aggregator{% endblock %}
+
+{% block page_title %}Edit aggregator{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{{ object.get_absolute_url() }}">{{ object }}</a> <span class="divider">/</span></li>
+    <li class="active">Edit</li>
+{% endblock %}
+
+{% block content %}
+    {{ form.media|safe }}
+    {{ crispy(form) }}
+{% endblock %}

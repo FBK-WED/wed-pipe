@@ -1,0 +1,173 @@
+{% extends 'layout/site_base.html' %}
+
+{% block subtitle %}
+    SPARQL
+{% endblock %}
+
+{% block page_title %}
+    Virtuoso SPARQL Query Editor
+{% endblock %}
+
+{% block extra_header %}
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        var last_format = 1;
+        function format_select(query_obg)
+        {
+            var query = query_obg.value;
+            var format = query_obg.form.format;
+
+            if ((query.match(/\bconstruct\b/i) || query.match(/\bdescribe\b/i)) && last_format == 1) {
+                for(var i = format.options.length; i > 0; i--)
+                    format.options[i] = null;
+                format.options[1] = new Option('N3/Turtle','text/rdf+n3');
+                format.options[2] = new Option('RDF/JSON','application/rdf+json');
+                format.options[3] = new Option('RDF/XML','application/rdf+xml');
+                format.options[4] = new Option('N-Triples','text/plain');
+                format.options[5] = new Option('XHTML+RDFa','application/xhtml+xml');
+                format.options[6] = new Option('ATOM+XML','application/atom+xml');
+                format.options[7] = new Option('ODATA/JSON','application/odata+json');
+                format.options[8] = new Option('JSON-LD','application/x-json+ld');
+                format.options[9] = new Option('HTML (list)','text/x-html+ul');
+                format.options[10] = new Option('HTML (table)','text/x-html+tr');
+                format.options[11] = new Option('HTML+Microdata','text/html');
+                format.options[12] = new Option('Microdata/JSON','application/microdata+json');
+                format.options[13] = new Option('CSV','text/csv');
+                format.options[14] = new Option('TSV','text/tab-separated-values');
+                format.options[15] = new Option('TriG','application/x-trig');
+                format.selectedIndex = 1;
+                last_format = 2;
+            }
+
+            if (!(query.match(/\bconstruct\b/i) || query.match(/\bdescribe\b/i)) && last_format == 2) {
+                for(var i = format.options.length; i > 0; i--)
+                    format.options[i] = null;
+                format.options[1] = new Option('HTML','text/html');
+                format.options[2] = new Option('Spreadsheet','application/vnd.ms-excel');
+                format.options[3] = new Option('XML','application/sparql-results+xml');
+                format.options[4] = new Option('JSON','application/sparql-results+json');
+                format.options[5] = new Option('Javascript','application/javascript');
+                format.options[6] = new Option('N3/Turtle','text/rdf+n3');
+                format.options[7] = new Option('RDF/XML','application/rdf+xml');
+                format.options[8] = new Option('N-Triples','text/plain');
+                format.options[9] = new Option('CSV','text/csv');
+                format.options[10] = new Option('TSV','text/tab-separated-values');
+                format.selectedIndex = 1;
+                last_format = 1;
+            }
+        }
+
+        function format_change(e)
+        {
+            var format = e.value;
+            var cxml = document.getElementById("cxml");
+            if (!cxml) return;
+            if ((format.match (/\bCXML\b/i)))
+            {
+                cxml.style.display="block";
+            } else {
+                cxml.style.display="none";
+            }
+        }
+        function savedav_change(e)
+        {
+            var savefs = document.getElementById("savefs");
+            if (!savefs) return;
+            if (e.checked)
+            {
+                savefs.style.display = "block";
+            }
+            else
+            {
+                savefs.style.display = "none";
+            }
+        }
+        function sparql_endpoint_init()
+        {
+            var cxml = document.getElementById("cxml");
+            if (cxml) cxml.style.display="none";
+            var savefs = document.getElementById("savefs");
+            if (savefs) savefs.style.display="none";
+        }
+        /*]]>*/
+
+        $(function () {
+            $('#btn_more').on('click', function (){
+                $('#more_options').toggle();
+                return false;
+            })
+        })
+    </script>
+
+{% endblock %}
+
+
+{% block breadcrumb %}
+    <li class="active">SPARQL endpoint</li>
+{% endblock %}
+
+{% block content %}
+    <form action="{{ sparql_endpoint }}" method="get">
+        <div class="control-group">
+            <label for="default-graph-uri">Default Data Set Name (Graph IRI)</label>
+            <input type="text" name="default-graph-uri" id="default-graph-uri" value="" size="80"/>
+        </div>
+
+        <div class="control-group">
+            <label for="query">Query Text</label>
+            <textarea rows="18" cols="80"
+                      style="width:100%; font-family: monospace"
+                      name="query"
+                      id="query"
+                      onchange="format_select(this)"
+                      onkeyup="format_select(this)"
+                    >{{ query }}</textarea>
+        </div>
+
+        <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="Run Query"/>
+            <input class="btn" type="reset" value="Reset"/>
+            <button id="btn_more" class="btn pull-right">More</button>
+        </div>
+
+        <div id="more_options" class="hidden">
+
+            <div class="control-group">
+                <span class="info"><i>(Security restrictions of this server do not allow you to retrieve remote RDF data, see <a href="/sparql?help=enable_sponge">details</a>.)</i></span>
+            </div>
+
+            <div class="control-group">
+                <label for="format" class="n">Results Format</label>
+                <select name="format" id="format" onchange="format_change(this)">
+                    <option value="auto" >Auto</option>
+                    <option value="text/html" selected="selected">HTML</option>
+                    <option value="application/vnd.ms-excel" >Spreadsheet</option>
+                    <option value="application/sparql-results+xml" >XML</option>
+                    <option value="application/sparql-results+json" >JSON</option>
+                    <option value="application/javascript" >Javascript</option>
+                    <option value="text/plain" >NTriples</option>
+                    <option value="application/rdf+xml" >RDF/XML</option>
+                    <option value="text/csv">CSV</option>
+                    <option value="text/tab-separated-values">TSV</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="timeout" class="n">Execution timeout</label>
+                <input name="timeout" id="timeout" type="text" value="0" /> milliseconds
+                <span class="info"><i>(values less than 1000 are ignored)</i></span>
+            </div>
+
+            <div class="control-group">
+                <label class="n" for="options">Options</label>
+                <fieldset id="options">
+                    <label for="debug" class="ckb checkbox">
+                        <input name="debug" id="debug" type="checkbox" checked="checked"/>
+                        Strict checking of void variables
+                    </label>
+                </fieldset>
+            </div>
+            <span class="info"><i>(The result can only be sent back to browser, not saved on the server, see <a href="/sparql?help=enable_det">details</a>)</i></span>
+        </div>
+    </form>
+{% endblock %}

@@ -11,9 +11,9 @@ Usage
 
   Ingest Scraper data:
 
-    $ ./ingest-data.sh -d wedpipe-test -s csv -c tripadvisortrentorestaurants
-    $ ./ingest-data.sh -d wedpipe-test -s csv -c gamberorossotrentinoaltoadigerestaurants
-    $ ./ingest-data.sh -d wedpipe-test -s csv -c eventisagreeventitrentino
+    $ ./ingest-data.sh -d venturi.fbk-test -s csv -c tripadvisortrentorestaurants
+    $ ./ingest-data.sh -d venturi.fbk-test -s csv -c gamberorossotrentinoaltoadigerestaurants
+    $ ./ingest-data.sh -d venturi.fbk-test -s csv -c eventisagreeventitrentino
 
   For more help:
 

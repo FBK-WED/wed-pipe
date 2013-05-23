@@ -76,7 +76,7 @@ AS $$
 		query = "SELECT L.id AS lid, R.id AS rid FROM geo_index AS L INNER JOIN geo_index AS R ON L.version = {0} AND R.version <> {0} AND L.id <> R.id AND ST_DWithin(L.the_geom, R.the_geom, {1})".format(version, max_distance)
 	rs = plpy.execute(query)
 	for row in rs:
-		# plpy.notice( "<{0}> <http://vocab.example.org#proximity> <{1}>".format(row['lid'], row['rid']) )
+		# plpy.notice( "<{0}> <http://vocab.venturi.fbk.eu#proximity> <{1}>".format(row['lid'], row['rid']) )
 		yield (row['lid'], row['rid'])
 $$ LANGUAGE plpython2u;
 
@@ -86,7 +86,7 @@ $$ LANGUAGE plpython2u;
 CREATE OR REPLACE FUNCTION to_ntriple(p proximity)
 RETURNS text
 AS $$
-	return "<{0}> <http://vocab.example.org#proximity> <{1}> .".format(p['id1'], p['id2'])
+	return "<{0}> <http://vocab.venturi.fbk.eu#proximity> <{1}> .".format(p['id1'], p['id2'])
 $$ LANGUAGE plpython2u;
 
 

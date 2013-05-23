@@ -1,0 +1,16 @@
+{% extends 'layout/site_base.html' %}
+
+{% block menu_aggregatorlist %}active{% endblock %}
+
+{% block subtitle %}New aggregator{% endblock %}
+
+{% block page_title %}New aggregator{% endblock %}
+
+{% block breadcrumb %}
+    <li class="active">New aggregator</li>
+{% endblock %}
+
+{% block content %}
+    {{ form.media|safe }}
+    {{ crispy(form) }}
+{% endblock %}

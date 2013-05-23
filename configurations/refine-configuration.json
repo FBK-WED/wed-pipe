@@ -1,0 +1,18 @@
+{
+  "module" : "Refine rule application Module",
+  "input_params" : ["archiveitem_id", "out_file"],
+  "vars" : {
+    "script" : "$python $ROOT/data_acquisition/manage.py refine",
+    "venv": ". $virtual_env_path/bin/activate"
+  },
+  "actions" : [
+    {
+      "action"      : "perform-ingestion",
+      "description" : "Applies Refine rules on an archiveitem.",
+      "command"     : "$venv && $script -a '$archiveitem_id' -o '$out_file'"
+    }
+  ],
+  "begin"    : "print 'Begin Refine rule application'",
+  "end"      : "print 'End Refine rule application'",
+  "error"    : "print 'Error while performing Refine rule application'"
+}

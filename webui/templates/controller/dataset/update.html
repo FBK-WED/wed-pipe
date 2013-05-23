@@ -1,0 +1,14 @@
+{% extends 'layout/site_base.html' %}
+
+{% block menu_sourcelist %}active{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{{ object.source.get_absolute_url() }}">{{ object.source }}</a> <span class="divider">/</span></li>
+    <li><a href="{{ object.get_absolute_url() }}">{{ object.name }}</a> <span class="divider">/</span></li>
+    <li class="active">Edit</li>
+{% endblock %}
+
+{% block content %}
+    {{ form.media|safe }}
+    {{ crispy(form) }}
+{% endblock %}

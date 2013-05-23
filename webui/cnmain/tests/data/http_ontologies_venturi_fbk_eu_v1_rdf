@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:dcterms="http://purl.org/dc/terms/"
+  xmlns:vann="http://purl.org/vocab/vann/"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+  <owl:Ontology rdf:about="http://ontologies.venturi.eu/v1">
+    <dcterms:title>V1 Vocabulary</dcterms:title>
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2013-05-14</dcterms:modified>
+    <vann:preferredNamespaceUri>http://ontologies.venturi.eu/v1#</vann:preferredNamespaceUri>
+    <vann:preferredNamespacePrefix>v1</vann:preferredNamespacePrefix>
+    <foaf:homepage rdf:resource="http://ontologies.venturi.eu/v1.html"/>
+    <dcterms:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2013-03-13</dcterms:created>
+    <dcterms:partOf rdf:resource="http://ontologies.venturi.eu"/>
+    <dcterms:type rdf:resource="http://purl.org/adms/assettype/Ontology"/>
+    <dcterms:status rdf:resource="http://purl.org/adms/status/UnderDevelopment"/>
+    <dc:creator rdf:resource="http://ontologies.venturi.eu/v1#Admin"/>
+  </owl:Ontology>
+
+  <rdf:Description rdf:about="http://ontologies.venturi.eu/v1#ttl">
+    <dcterms:FileFormat></dcterms:FileFormat>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://ontologies.venturi.eu/v1#rdf">
+    <dcterms:FileFormat></dcterms:FileFormat>
+  </rdf:Description>
+
+  <foaf:Person rdf:about="http://ontologies.venturi.eu/v1#Admin">
+    <foaf:nick>Admin</foaf:nick>
+  </foaf:Person>
+
+  <rdfs:Class rdf:about="http://ontologies.venturi.eu/v1#Thing">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>Thing</rdfs:label>
+    <rdfs:comment>Generic superclass for Venturi classes.</rdfs:comment>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://ontologies.venturi.eu/v1#POI">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>POI</rdfs:label>
+    <rdfs:comment>Point of Interest class.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://ontologies.venturi.eu/v1#Event">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>Event</rdfs:label>
+    <rdfs:comment>Dandelion Event class, subclass of schema.org/Event.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://ontologies.venturi.eu/v1#MovieShowEvent">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>MovieShowEvent</rdfs:label>
+    <rdfs:comment>Dandelion MovieShowEvent class, subclass of schema.org/Event.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://ontologies.venturi.eu/v1#Event"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://ontologies.venturi.eu/v1#NUTSresource">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>NUTS subdivision class</rdfs:label>
+    <rdfs:comment>Generic class for standard NUTS and LAU administrative subdivisions.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://ontologies.venturi.eu/v1#NUTS0">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>NUTS 0</rdfs:label>
+    <rdfs:comment>NUTS 0 subdivision - European country.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://ontologies.venturi.eu/v1#NUTSresource"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://ontologies.venturi.eu/v1#NUTS1">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>NUTS 1</rdfs:label>
+    <rdfs:comment>NUTS 1 subdivision - Italian macroregion.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://ontologies.venturi.eu/v1#NUTSresource"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://ontologies.venturi.eu/v1#NUTS2">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>NUTS 2</rdfs:label>
+    <rdfs:comment>NUTS 2 subdivision - Italian region.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://ontologies.venturi.eu/v1#NUTSresource"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://ontologies.venturi.eu/v1#NUTS3">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>NUTS 3</rdfs:label>
+    <rdfs:comment>NUTS 3 subdivision - Italian province.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://ontologies.venturi.eu/v1#NUTSresource"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://ontologies.venturi.eu/v1#LAU2">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>LAU 2</rdfs:label>
+    <rdfs:comment>LAU 2 subdivision - Italian municipality.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://ontologies.venturi.eu/v1#NUTSresource"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://ontologies.venturi.eu/v1#DandelionConcept">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>DandelionConcept</rdfs:label>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://ontologies.venturi.eu/v1#LAU3">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label>LAU3</rdfs:label>
+    <rdfs:comment>LAU 3 subdivision - Italian locallity</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://ontologies.venturi.eu/v1#NUTSresource"/>
+  </rdfs:Class>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#acheneID">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Dandelion UUID</rdfs:label>
+    <rdfs:comment>Indexed: The Dandelion UUID. A 40 character string.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#name">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Name</rdfs:label>
+    <rdfs:comment>Name.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#address">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Address</rdfs:label>
+    <rdfs:comment>Street address, including house number</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#POI"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#isInNUTS">
+    <rdfs:label>NUTS finer subdivision where POI is.</rdfs:label>
+    <rdfs:comment>NUTS finer subdivision where POI is.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#POI"/>
+    <rdfs:range rdf:resource="http://ontologies.venturi.eu/v1#NUTSresource"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#locality_label">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Italian sub-municipality subdivision</rdfs:label>
+    <rdfs:comment>Italian 'frazione' name - part of a municipality. Not part of LAU classification.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#POI"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#postcode">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>CAP</rdfs:label>
+    <rdfs:comment>Italian postcode.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#POI"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#description">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Description</rdfs:label>
+    <rdfs:comment>Short description.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#country">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Country code</rdfs:label>
+    <rdfs:comment>The ISO 3166-1 alpha-2 country code</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#POI"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#tel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Telephone number</rdfs:label>
+    <rdfs:comment>Telephone number in local formatting</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#POI"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#fax">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Fax number</rdfs:label>
+    <rdfs:comment>Fax number formatted as above</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#POI"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#website">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Website</rdfs:label>
+    <rdfs:comment>URL of the official website of the event or venue.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#latitude">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>POI latitude value.</rdfs:label>
+    <rdfs:comment>Latitude in decimal degrees (WGS84 datum). Value will not exceed 6 decimal places (0.111m).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#longitude">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>POI longitude value.</rdfs:label>
+    <rdfs:comment>Longitude in decimal degrees (WGS84 datum). Value will not exceed 6 decimal places (0.111m).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#category">
+    <rdfs:label>Category</rdfs:label>
+    <rdfs:comment>Repeated: Category which the POI belongs.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://ontologies.venturi.eu/v1#DandelionConcept"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#email">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Email</rdfs:label>
+    <rdfs:comment>Main contact email address of organization</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#POI"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#image">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>image</rdfs:label>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Event"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#startDate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>startDate</rdfs:label>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Event"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#endDate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>endDate</rdfs:label>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Event"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#offers">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>offers</rdfs:label>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Event"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#location">
+    <rdfs:label>Location.</rdfs:label>
+    <rdfs:comment>Location. Link of the acheneID of the relevant POI.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Event"/>
+    <rdfs:range rdf:resource="http://ontologies.venturi.eu/v1#POI"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#contact">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Contact information.</rdfs:label>
+    <rdfs:comment>Contact information.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Event"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#genre">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Genre</rdfs:label>
+    <rdfs:comment>Music genre.</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#title">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Movie title</rdfs:label>
+    <rdfs:comment>Movie title.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#MovieShowEvent"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#moreInfoURL">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>URL to more info</rdfs:label>
+    <rdfs:comment>URL with more information about the Event.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Event"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#moreInfo">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>More info</rdfs:label>
+    <rdfs:comment>More info </rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Event"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#NUTS_code">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>NUTS code</rdfs:label>
+    <rdfs:comment>BUnique: NUTS code of the relevant NUTS level.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#NUTSresource"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#ISTAT_code">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>ISTAT code</rdfs:label>
+    <rdfs:comment>BUnique: ISTAT code of the relevant administrative level.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#NUTSresource"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#NUTS_level">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>NUTS level</rdfs:label>
+    <rdfs:comment>NUTS level (from 0 to 4).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#NUTSresource"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#childOf">
+    <rdfs:label>NUTS parent class of given class</rdfs:label>
+    <rdfs:comment>Subject class is child of object class.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#NUTSresource"/>
+    <rdfs:range rdf:resource="http://ontologies.venturi.eu/v1#NUTSresource"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#hasLicensePlate">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Vehicle license plate code</rdfs:label>
+    <rdfs:comment>Vehicle license plate code for Italian provinces.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#NUTS3"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#germanLabel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>German label</rdfs:label>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#isProvinceCheflieu">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Provincial cheflieu flag</rdfs:label>
+    <rdfs:comment>Provincial chef-lieu flag: in Italian, capoluogo di provincia</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#LAU2"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:subPropertyOf rdf:resource="http://ontologies.venturi.eu/v1#isCheflieu"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#elevation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Elevation</rdfs:label>
+    <rdfs:comment>Elevation, in meters above sea level.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#LAU2"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#isCoastal">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Coastal flag</rdfs:label>
+    <rdfs:comment>Coastal flag: true if place has a partial/total coastal boundary.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#LAU2"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#isMountainMunicipality">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Mountain municipality code</rdfs:label>
+    <rdfs:comment>Mountain municipality code for an Italian place.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#LAU2"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#hasPopulationOf">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Population figure</rdfs:label>
+    <rdfs:comment>Population figure for 2011.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#LAU2"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#vatCode">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Partita Iva</rdfs:label>
+    <rdfs:comment>Partita IVA o analogo codice per altri stati</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#sourceURL">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Source URL</rdfs:label>
+    <rdfs:comment>Information regarding the subject have been obtained from the given URL. Different from website property, that links to the official website of the subject, but has not been used to extract information.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#isGlutenFree">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>isGlutenFree</rdfs:label>
+    <rdfs:comment>Accessible by people with celiac disease</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#secondaryTel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>secondaryTel</rdfs:label>
+    <rdfs:comment>Another phone number (fax?)</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#POI"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#companyName">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>companyName</rdfs:label>
+    <rdfs:comment>Company name. Should be moved into Organization/name</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#alternateName">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Alternate Name</rdfs:label>
+    <rdfs:comment>Repeated: Alternate name for a thing. This name is alternative to the preferred in sd:name</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#openingHoursLabel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Opening Hours</rdfs:label>
+    <rdfs:comment>An unstructured field (rdfs:Literal) representing Opening hours.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#POI"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#productOrService">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Product or Service</rdfs:label>
+    <rdfs:comment>Links a POI to the products or services it sells or distributes in other ways. It can link to both an unstructured description of a product (a Literal) or to a structured product resource (a URI).</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#POI"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#capacity">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Capacity</rdfs:label>
+    <rdfs:comment>Capacity or seats of a place or of an event (e.g. total available seats at a concert) as a literal</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#wheelchairAccessible">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Wheelchair Accessible</rdfs:label>
+    <rdfs:comment>Place or event accessible for people with disabilities (including wheelchair, braille signage, etc.)</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#geometry">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Geometry</rdfs:label>
+    <rdfs:comment>A geographical geometry, expressed in WKT</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#italianWikipediaURL">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Italian Wikipedia URL</rdfs:label>
+    <rdfs:comment>The URL of the resource on the Italian Wikipedia</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+    <rdfs:subPropertyOf rdf:resource="http://ontologies.venturi.eu/v1#wikipediaURL"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#isMunicipalityCheflieu">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Municipality cheflieu flag</rdfs:label>
+    <rdfs:comment>Provincial chef-lieu flag: in Italian, capoluogo di comune</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#LAU3"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:subPropertyOf rdf:resource="http://ontologies.venturi.eu/v1#isCheflieu"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#isCheflieu">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>General chef-lieu flag</rdfs:label>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#NUTSresource"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#hasPopulationOf2001">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Population figure for 2001</rdfs:label>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#NUTSresource"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#wikipediaURL">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>wikipediaURL</rdfs:label>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#germanWikipediaURL">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>German Wikipedia URL</rdfs:label>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+    <rdfs:subPropertyOf rdf:resource="http://ontologies.venturi.eu/v1#wikipediaURL"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#englishWikipediaURL">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>English Wikipedia URL</rdfs:label>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#anyURI"/>
+    <rdfs:subPropertyOf rdf:resource="http://ontologies.venturi.eu/v1#wikipediaURL"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#certifiedEmail">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>A certified email address (PEC, in Italy)</rdfs:label>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#POI"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#englishLabel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>A label in English</rdfs:label>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#italianLabel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Label in Italian</rdfs:label>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#japaneseLabel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Label in Japanese</rdfs:label>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#spanishLabel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Label in Spanish</rdfs:label>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#Thing"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#isPublicSchool">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>True if the school is public</rdfs:label>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#POI"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#methane">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Methane</rdfs:label>
+    <rdfs:comment>Whether or not the gas station has methane</rdfs:comment>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#POI"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://ontologies.venturi.eu/v1#cadastral_code">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label>Cadastral Code</rdfs:label>
+    <rdfs:domain rdf:resource="http://ontologies.venturi.eu/v1#NUTSresource"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+</rdf:RDF>

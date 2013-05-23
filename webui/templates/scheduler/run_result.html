@@ -1,0 +1,112 @@
+{% extends parent %}
+
+{% block page_title %}Workflow execution log{% endblock %}
+
+{% block subtitle %}Workflow execution log{% endblock %}
+
+{% block breadcrumb %}
+    {% if source %}
+        <li><a href="{{ source.get_absolute_url() }}">{{ source }}</a> <span class="divider">/</span></li>
+    {% endif %}
+    {% if dataset_list %}
+        <li>
+            {% for dataset in dataset_list %}
+                {% if not loop.first %}<span class="divider">-</span>{% endif %}
+                <a href="{{ dataset.get_absolute_url() }}">{{ dataset.name }}</a>
+            {% endfor %}
+            <span class="divider">/</span>
+        </li>
+    {% endif %}
+    <li class="active">Workflow execution log</li>
+{% endblock %}
+
+{% block content %}
+    <div class="row-fluid">
+        <div class="btn-group pull-right">
+            <span class="btn btn-mini details-toggle" data-hidden="true">Toggle details</span>
+        </div>
+    </div>
+    <div class="logs">
+        <div class="header row-fluid">
+            <div class="span2">Process/Thread</div>
+            <div class="span10 msg">Log message</div>
+        </div>
+        {% block ajax_content %}
+            {% for log in logs %}
+                {% if log.msg == END %}
+                    <span class="stop-stream"></span>
+                    {% continue %}
+                {% endif %}
+                <div class="log row-fluid loglevel-{{ log.levelname }}" data-index="{{ log.index }}">
+                    <div class="span2 minor">
+                        {{ log.process }}/{{ log.thread }}
+                    </div>
+                    <div class="span10 msg">
+                        <span class="pull-right time">{{ log.msecs }}</span>
+                        {{ log.msg }}
+                        {% if log.show_args %}
+                            <h4>Arguments</h4>
+                            <pre> {{ log.args }} </pre>
+                        {% endif %}
+                        {% if log.exc_info %}\
+                            <h4>Traceback</h4>
+                            <pre> {{ log.exc_info }} </pre>
+                        {% endif %}
+                        <div class="minor path hidden">{{ log.pathname }}:{{ log.lineno }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="more"></div>
+        {% endblock %}
+        <div class="row-fluid">
+            <div class="running span12">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extrascript_body %}
+    <script>
+        $(function () {
+            "use strict";
+
+            var interval;
+
+            $('.details-toggle').click(function () {
+                $('.path').toggle($(this).data('hidden'));
+
+                $(this).data('hidden', !$(this).data('hidden'));
+            });
+
+            new Spinner({
+                lines: 9,
+                width: 2,
+                radius: 1,
+                left: 'auto'
+            }).spin($('.spinner')[0]);
+
+            interval = setInterval(function () {
+                if ($('.stop-stream').is('*')) {
+                    clearInterval(interval);
+                    $('.running').hide();
+                    return
+                }
+                var lastLog = $('.logs').find('.log').last().data('index'),
+                    indexLast;
+
+                if (lastLog)
+                    indexLast = parseInt(lastLog, 10);
+                else
+                    indexLast = 0;
+
+                $.get('{% url "scheduler_result_detail_view" task_id %}',
+                    'start=' + (indexLast + 1),
+                    function (data) {
+                        $('.logs').find('.more').replaceWith(data);
+                    }
+                )
+            }, 1000);
+        });
+    </script>
+{% endblock extrascript_body %}

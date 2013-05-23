@@ -10,9 +10,34 @@ import urllib2
 import argparse
 import re
 
-GATEWAY = 'http://www.territorio.provincia.tn.it/portal/server.pt/gateway/PTARGS_0_18720_2521_862_0_43/http%3B/172.20.3.95%3B8380/geoportlet/'
+PORTAL_ROOT = 'http://www.territorio.provincia.tn.it/portal/'
+SEARCH_FORM = PORTAL_ROOT + 'server.pt/community/sgc_-_geocatalogo/862/sgc_-_geocatalogo/32157'
+GATEWAY = PORTAL_ROOT + 'server.pt/gateway/PTARGS_0_18720_2521_862_0_43/http%3B/172.20.3.95%3B8380/geoportlet/'
+FETCH_INDEX = GATEWAY + 'srv/it/main.present.embedded?from=1&to=160'
+WORK_DIR = 'work'
+INDEX_FILE = 'index.html'
+USER_AGENT = 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1'
 
 from multiprocessing import Process
+
+def download_index(save_file):
+    import mechanize
+    import cookielib
+
+    br = mechanize.Browser()
+    cj = cookielib.LWPCookieJar()
+    br.set_cookiejar(cj)
+    br.addheaders = [('User-agent', USER_AGENT)]
+
+    r = br.open(SEARCH_FORM)
+    br.select_form('search')
+    r = br.submit()
+
+    r2 = br.open(FETCH_INDEX)
+    f2 = r2.read()
+
+    with open(save_file, 'w') as out_file:
+        out_file.write(f2)
 
 def download_url(url, save_dir):
     file_name = url.split('/')[-1]
@@ -87,19 +112,29 @@ def process_index(index_content, save_dir, csv):
 
 def main():
     parser = argparse.ArgumentParser(description='Downloads the territorial data from PAT.')
-    parser.add_argument('-i', '--index_file', action='store'     , help='The input index file', required=True)
+    parser.add_argument('-i', '--index_file', action='store'     , help='The input index file', required=False)
     parser.add_argument('-s', '--save_dir'  , action='store'     , help='The output archive dir')
     parser.add_argument('-c', '--csv'       , action='store_true', help='If specified produces a CSV of the parsed data')
     args = parser.parse_args()
 
-    if args.save_dir == None and args.csv == None:
-        raise Exception('Either save_dir or csv must be specified.')
+    import os
 
-    index = open(args.index_file)
-    index_str = index.read()
-    index.close()
+    if args.save_dir is None: args.save_dir = WORK_DIR
+    try:
+        os.mkdir(args.save_dir)
+    except OSError:
+        pass
 
-    if not args.csv: os.mkdir(args.save_dir)
+    if args.index_file is None:
+        print 'Downloading index...'
+        args.index_file = os.path.join(args.save_dir, INDEX_FILE) 
+        download_index(args.index_file)
+        print 'Done'
+
+    with open(args.index_file) as index:
+        index_str = index.read()
+        index.close()
+
     process_index(index_str, args.save_dir, args.csv)
 
 if __name__ == '__main__':

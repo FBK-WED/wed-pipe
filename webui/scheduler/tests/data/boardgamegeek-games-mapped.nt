@@ -1,0 +1,23 @@
+# Dump of graph <http://data-test.venturi.eu/graph/mapped/2d5fad7a09279256525e83e903444921>, as of 2013-03-07 15:14:40
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ns1:    <http://ontologies.venturi.eu/v1#> .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/0>      rdf:type        ns1:BoardGame .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/1>      rdf:type        ns1:BoardGame .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/2>      rdf:type        ns1:BoardGame .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/3>      rdf:type        ns1:BoardGame .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/0>      ns1:year        "2008" .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/1>      ns1:year        "2009" .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/3>      ns1:year        "2009" .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/2>      ns1:year        "2005" .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/1>      ns1:description "In Dominion: Intrigue (as with Dominion), each player starts with an identical, very small deck of cards. In the center of the table is a selection of other cards the players can \\\"buy\\\" as they can afford them. Through their selection of cards to buy, and how they play their hands as they draw them, the players construct their deck on the fly, striving for the most efficient path to the precious victory points by game end." .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/0>      ns1:description "In Dominion, each player starts with an identical, very small deck of cards. In the center of the table is a selection of other cards the players can \\\"buy\\\" as they can afford them. Through their selection of cards to buy, and how they play their hands as they draw them, the players construct their deck on the fly, striving for the most efficient path to the precious victory points by game end." .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/2>      ns1:description "In most games players compete against each other to achieve victory. Shadows over Camelot proposes a journey of a very different kind where you and your fellow players as Knights of the Round Table will collaborate to jointly defeat... the game!" .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/3>      ns1:description "In Small World players vie for conquest and control of a world that is simply too small to accommodate them all." .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/0>      ns1:name        "Dominion" .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/1>      ns1:name        "Dominion: Intrigue" .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/2>      ns1:name        "Shadows over Camelot" .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/3>      ns1:name        "Small World" .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/0>      ns1:acheneID        "92d347bc2b1ba82031731b7f361dc4547292d2db" .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/1>      ns1:acheneID        "0a89d27f6e03bb7251607e3c1deae5be8b3636a3" .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/2>      ns1:acheneID        "4244da0f64df22132677bd6caff398764395df94" .
+<http://data-test.venturi.eu/resource/source-3/dataset-3/archive-item-1/m/3>      ns1:acheneID        "f68a42eeb69ee7398f0df67d423711799cbdd6a9" .

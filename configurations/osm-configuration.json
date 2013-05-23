@@ -1,0 +1,17 @@
+{
+    "module" : "OSM Ingestion Module",
+    "input_params" : ["dataset", "bbox", "database"],
+    "vars" : {
+        "script" : "$ROOT/data_acquisition/osm/ingest-data.sh"
+    },
+    "actions" : [
+        {
+            "action"      : "perform-acquisition",
+            "description" : "Ingests OSM dataset into the specified db.",
+            "command"     : "$script -d $database -s osm -a '$dataset'"
+        }
+    ],
+    "begin"    : "print 'Begin OSM Ingestion'",
+    "end"      : "print 'End OSM Ingestion'",
+    "error"    : "print 'Error while performing OSM ingestion'"
+}

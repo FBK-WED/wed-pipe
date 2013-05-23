@@ -31,11 +31,11 @@ if [[ "$DATA" =~ 'http://' || "$DATA" =~ 'https://' ]]; then
 		graph_dir=${DATA/\//_}
 		graph_dir=${graph_dir/:/__}
 	data_file=$VIRTUOSO_DATA/$RDF_DIR/$graph_dir
-	rm $data_file
+	rm -f $data_file
 	wget "$DATA" -O $data_file && { echo "RDF Data $DATA downloaded."; } || { echo "Error while downloading RDF data $DATA . Aborting."; exit 1; }
 else
 	data_file=$VIRTUOSO_DATA/$RDF_DIR/$(basename $DATA)
-	rm $data_file
+	rm -f $data_file
 	cp $DATA $data_file || { echo "Error while copying data $DATA to data_file $data_file"; exit 1; }
 fi
 
@@ -48,7 +48,11 @@ if [[ "$data_file" =~ '.bz2' ]]; then
 	echo done
 fi
 
+if [ "${ISQL_HOST}" != "localhost" ]; then
+	scp $data_file "${REMOTE_USER}@${ISQL_HOST}:/${data_file}" || { echo "Error while copying data $DATA to ${REMOTE_USER}@${ISQL_HOST}:/$data_file"; exit 1; }
+fi
+
 # Ingest RDF file.
-$ISQL localhost:$ISQL_PORT $ISQL_USER $ISQL_PWD EXEC="SPARQL CLEAR GRAPH<$GRAPH>; DB.DBA.ld_file('"$data_file"', '"$GRAPH"');" || { echo "Error while processing file."; exit 1; }
+$ISQL ${ISQL_HOST}:$ISQL_PORT $ISQL_USER $ISQL_PWD EXEC="SPARQL CLEAR GRAPH<$GRAPH>; DB.DBA.ld_file('"$data_file"', '"$GRAPH"');" || { echo "Error while processing file."; exit 1; }
 
 exit 0
